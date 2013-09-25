@@ -28,6 +28,22 @@ public abstract class Utils {
 	
 	/**
 	 * 
+	 * @param command
+	 * @param representationKey
+	 * @param tag
+	 * @return
+	 */
+	public static String getURL(String command, String representationKey, String tag) {
+		return Utils.getBaseURL()+
+					Constants.API_URL+"/"+
+					Constants.PROPOSAL_URL+"/"+
+					representationKey+"/"+
+					command+"/"+
+					tag;
+	}
+	
+	/**
+	 * 
 	 * @param key
 	 * @return
 	 */

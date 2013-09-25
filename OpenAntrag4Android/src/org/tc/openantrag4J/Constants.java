@@ -29,6 +29,7 @@ public abstract class Constants {
 	public static final String BASE_URL = "www.openantrag.de";
 	public static final String PROTOCOL = "http";
 	public static final String API_URL = "api";
+	public static final String PROPOSAL_URL = "proposal";
 	public static final String COMMAND_REPRESENTATION = "representation";
 	public static final String COMMAND_PROPOSAL = "proposal";
 	public static final String COMMAND_GET_KEY_VALUE_LIST = "representation/GetKeyValueList";
@@ -39,6 +40,7 @@ public abstract class Constants {
 	public static final String COMMAND_GET_COMMENTS = "proposal/GetComments";
 	public static final String COMMAND_GET_TOP = "GetTop";
 	public static final String COMMAND_GET_BY_ID = "proposal/GetById";
+	public static final String COMMAND_GET_BY_TAG = "GetByTag";
 	public static final String FIELD_EXTERNAL_SHORT_URL = "ExternalShortUrl";
 	public static final String FIELD_KEY = "Key";
 	public static final String FIELD_VALUE = "Value";

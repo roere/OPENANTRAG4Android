@@ -33,7 +33,7 @@ public class Proposal {
 	private String titleText = "";
 //	private JSONObject feedItem = null;
 	
-	protected Proposal() {
+	public Proposal() {
 	}
 
 	/**

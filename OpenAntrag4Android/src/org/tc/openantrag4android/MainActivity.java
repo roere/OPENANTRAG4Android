@@ -22,7 +22,11 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.*;
 
-//public class MainActivity extends ActionBarActivity {
+/**
+ * 
+ * @author roere
+ *
+ */
 public class MainActivity extends Activity {
 
 	@Override
@@ -33,7 +37,7 @@ public class MainActivity extends Activity {
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 			StrictMode.setThreadPolicy(policy); 
 			
-			buildFilterView();
+			new RemotePreDataTask().execute();
 		} catch (Exception e) {
 			e.printStackTrace();
 			AlertDialog alert = new AlertDialog.Builder(this).create();
@@ -42,42 +46,7 @@ public class MainActivity extends Activity {
 			alert.setCanceledOnTouchOutside(true);
 			alert.show();
 		}
-	}
-	
-	private void buildFilterView () {
-		List<String> list = new ArrayList<String>();		
-		ArrayList<Representation> rList = null;
-		ArrayList<String> tList = null;
-		try {
-			rList = RepresentationFactory.getAll();
-			for (int i=0;i<rList.size();i++) {
-				list.add(rList.get(i).getName());
-			}
-			Storage.representationList = rList; //persist representation list
-			
-			tList = GetTags.execute();
-			tList.add(0, "...");
-		} catch (OpenAntragException e) {
-			e.printStackTrace();
-			AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
-			alert.setTitle("Fehler!");
-			alert.setMessage(e.getMessage());
-			alert.setCanceledOnTouchOutside(true);
-			alert.show();
-		}
-		
-		Spinner lView = (Spinner)findViewById(R.id.representationList);		
-		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-			android.R.layout.simple_spinner_item, list);	
-		dataAdapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
-		lView.setAdapter(dataAdapter);
-		
-		Spinner tView = (Spinner)findViewById(R.id.tagsList);		
-		ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this,
-			android.R.layout.simple_spinner_item, tList);	
-		dataAdapter2.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
-		tView.setAdapter(dataAdapter2);
-	}
+	}	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -93,7 +62,80 @@ public class MainActivity extends Activity {
 	public void onClickFind(View view) {		
 		new RemoteDataTask().execute();
 	}
+
+	/**
+	 * AsyncTask retrieves data to fill Spinner: Representations, Tags 
+	 * @author roere
+	 *
+	 */
+    private class RemotePreDataTask extends AsyncTask<Void, Void, Void> {
+    	
+    	ProgressDialog mProgressDialog = null;
+		ArrayList<String> tList = null;
+		List<String> list = new ArrayList<String>();		
+    	
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Create a progressdialog
+            mProgressDialog = new ProgressDialog(MainActivity.this);
+            // Set progressdialog title
+            //mProgressDialog.setTitle("OPENANTRAG");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Lade Daten...");
+            mProgressDialog.setIndeterminate(false);
+            //mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            // Show progressdialog
+            mProgressDialog.show();
+        }
+ 
+        @Override
+        protected Void doInBackground(Void... params) {
+        	list = new ArrayList<String>();		
+    		ArrayList<Representation> rList = null;
+    		tList = null;
+    		try {
+    			rList = RepresentationFactory.getAll();
+    			for (int i=0;i<rList.size();i++) {
+    				list.add(rList.get(i).getName());
+    			}
+    			Storage.representationList = rList; //persist representation list
+    			
+    			tList = GetTags.execute();
+    			tList.add(0, "...");
+    		} catch (OpenAntragException e) {
+    			e.printStackTrace();
+    			AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
+    			alert.setTitle("Fehler!");
+    			alert.setMessage(e.getMessage());
+    			alert.setCanceledOnTouchOutside(true);
+    			alert.show();
+    		}
+            return null;
+        }
+ 
+        @Override
+        protected void onPostExecute(Void result) {
+    		Spinner lView = (Spinner)findViewById(R.id.representationList);		
+    		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this,
+    			android.R.layout.simple_spinner_item, list);	
+    		dataAdapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
+    		lView.setAdapter(dataAdapter);
+    		
+    		Spinner tView = (Spinner)findViewById(R.id.tagsList);		
+    		ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(MainActivity.this,
+    			android.R.layout.simple_spinner_item, tList);	
+    		dataAdapter2.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
+    		tView.setAdapter(dataAdapter2);
+            mProgressDialog.dismiss();
+        }
+    }
 	
+    /**
+     * AsyncTask loads proposallist for next Activity
+     * @author roere
+     *
+     */
     private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
     	
     	ProgressDialog mProgressDialog = null;
@@ -105,7 +147,7 @@ public class MainActivity extends Activity {
             // Create a progressdialog
             mProgressDialog = new ProgressDialog(MainActivity.this);
             // Set progressdialog title
-            mProgressDialog.setTitle("OPENANTRAG");
+            //mProgressDialog.setTitle("OPENANTRAG");
             // Set progressdialog message
             mProgressDialog.setMessage("Lade Daten...");
             mProgressDialog.setIndeterminate(false);

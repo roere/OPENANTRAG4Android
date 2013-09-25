@@ -13,7 +13,7 @@ public class ProposalFile extends ArrayList<Proposal>{
 	/**
 	 * 
 	 */
-	protected ProposalFile() {
+	public ProposalFile() {
 	}
 		
 	/**

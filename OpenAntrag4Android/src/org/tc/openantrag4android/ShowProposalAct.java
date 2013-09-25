@@ -148,7 +148,7 @@ public class ShowProposalAct extends Activity {
             // Create a progressdialog
             mProgressDialog = new ProgressDialog(ShowProposalAct.this);
             // Set progressdialog title
-            mProgressDialog.setTitle("OPENANTRAG");
+            //mProgressDialog.setTitle("OPENANTRAG");
             // Set progressdialog message
             mProgressDialog.setMessage("Lade Daten...");
             mProgressDialog.setIndeterminate(false);
