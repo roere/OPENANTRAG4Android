@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.tc.openantrag4android.MainActivity"
+            android:name="org.tc.openantrag4android.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,29 +25,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tc.openantrag4android.ShowProposalAct"
+            android:name="org.tc.openantrag4android.ShowProposalAct"
             android:label="@string/app_name" >
             <intent-filter>
                 
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tc.openantrag4android.ProposalListAct"
+            android:name="org.tc.openantrag4android.ProposalListAct"
             android:label="@string/app_name" >
             <intent-filter>
                 
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tc.openantrag4android.ShowProposalProcessAct"
+            android:name="org.tc.openantrag4android.ShowProposalProcessAct"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.tc.openantrag4android.ShowProposalCommentsAct"
+            android:name="org.tc.openantrag4android.ShowProposalCommentsAct"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.tc.openantrag4android.ShowRepresentativeAct"
+            android:name="org.tc.openantrag4android.ShowRepresentativeAct"
             android:label="@string/app_name" >
         </activity>
         
