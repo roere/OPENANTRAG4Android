@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">OpenAntrag4Android</string>
+    <string name="action_settings">Settings</string>
+    <string name="textHeadLine">OPENANTRAG</string>
+    <string name="textFilterRepresentation">Fraktion</string>
+    <string name="textFilterTag">Thema</string>
+    
+    
+    
+    <string name="searchButton">Anträge suchen</string>
+    <string name="backButton1">zurück</string>
+    <string name="showProposalHeadline">Headline</string>
+    <string name="showProposalBody">Bodytext</string>
+    <string name="showProposalTags">Tags</string>
+    <string name="backChar">&lt;&lt;</string>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <string name="setFilter">Filter setzen</string>
+    <color name="lightGrey">#f4f4f4</color>
+    <color name="darkGrey">#333333</color>
+    <string name="showProposals">Antragsliste</string>
+    <string name="representative">Ansprechpartner</string>
+    <string name="name">Name</string>
+    <string name="party">Partei</string>
+    <string name="email">eMail</string>
+    <string name="twitter">Twitter</string>
+    <string name="proposalStep">Status</string>
+    <string name="plMenuItem1">Antragsverlauf</string>
+    <string name="plMenuItem2">Kommentare</string>
+    <string name="showProposal">Antrag</string>
+    <string name="commentString">Kommentare: </string>
+    <string name="forwardChar">&gt;&gt;</string>
+    <color name="oa_comment">#bf5f13</color>
+ 
+
+</resources>

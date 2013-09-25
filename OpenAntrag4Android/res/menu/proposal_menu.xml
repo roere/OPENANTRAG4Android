@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item android:id="@+id/plItem1" 
+        android:title="@string/plMenuItem1" 
+        android:icon="@drawable/open_antrag"></item>
+	<item android:id="@+id/plItem2" 
+	    android:title="@string/plMenuItem2" 
+	    android:icon="@drawable/open_antrag"></item>
+
+</menu>

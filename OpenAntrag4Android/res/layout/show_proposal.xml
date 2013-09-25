@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/showProposalView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/showProposalBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:background="@color/black" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/backChar"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/lightGrey" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/open_antrag" />
+
+        <TextView
+            android:id="@+id/textHeadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/showProposals"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/lightGrey" />
+    </LinearLayout>
+    
+	<RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+        
+	    <LinearLayout
+	            android:id="@+id/repLine"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:background="@color/white"
+	            android:orientation="horizontal">
+        
+		    <ImageView
+	            android:id="@+id/portraitImage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:layout_centerVertical="true"
+	            android:src="@drawable/oa_owner" />
+	        <LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="vertical" >
+	    
+		    	<TextView
+			         android:id="@+id/repText"
+			         android:layout_width="match_parent"
+			         android:layout_height="wrap_content"
+			         android:text="@string/representative"
+			         android:background="@color/white"
+			         android:textColor="@color/darkGrey"
+			         android:textAppearance="?android:attr/textAppearanceSmall" />
+			    
+				<TextView
+			          android:id="@+id/representative"
+			          android:layout_width="match_parent"
+			          android:layout_height="wrap_content"
+			          android:textColor="@color/darkGrey"
+			          android:background="@color/white"
+			          android:textStyle="bold"
+			          android:text=""
+			          android:textAppearance="?android:attr/textAppearanceSmall" />
+				
+			</LinearLayout>
+		</LinearLayout>
+		<LinearLayout
+               	android:id="@+id/showProposalSteps"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@+id/repLine"
+	            android:background="@color/lightGrey"
+	            android:orientation="horizontal">
+	        
+            <ImageView
+	            android:id="@+id/oa_process"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:layout_centerVertical="true"
+	            android:src="@drawable/oa_process" />
+            
+            <LinearLayout
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:orientation="vertical" >
+		
+				<TextView
+			         android:id="@+id/proposalStepText"
+			         android:layout_width="wrap_content"
+			         android:layout_height="match_parent"
+			         android:layout_alignParentLeft="true"
+			         android:text="@string/proposalStep"
+			         android:textAppearance="?android:attr/textAppearanceSmall" />
+			
+			     <TextView
+			          android:id="@+id/proposalSteps"
+			          android:layout_width="wrap_content"
+			          android:layout_height="wrap_content"
+			          android:text="Medium Text"
+			          android:textStyle="bold"
+			          android:textAppearance="?android:attr/textAppearanceSmall" />
+		     </LinearLayout>
+		     
+		     <TextView
+		          android:layout_width="wrap_content"
+		          android:layout_height="wrap_content"
+		          android:text="@string/forwardChar"
+		          android:textAppearance="?android:attr/textAppearanceSmall" />
+	     
+        </LinearLayout>
+	</RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/showProposalHeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/showProposalHeadline"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/showProposalBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/showProposalBody"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+          
+            <LinearLayout
+               	android:id="@+id/showTags"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:background="@color/lightGrey"
+	            android:orientation="horizontal">
+			     
+                <ImageView
+		            android:id="@+id/oa_comment"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:src="@drawable/oa_tags" />
+			     
+                <TextView
+	                android:id="@+id/showProposalTags"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/showProposalTags"
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+                
+            </LinearLayout>
+            
+            <LinearLayout
+               	android:id="@+id/showComments"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:background="@color/oa_comment"
+	            android:orientation="horizontal">
+	            
+                <ImageView
+		            android:id="@+id/oa_comment"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:src="@drawable/oa_comment_col" />
+	            
+                <TextView
+	                android:id="@+id/comment"
+	                android:layout_width="wrap_content"
+	                android:layout_height="match_parent"
+	                android:text="@string/commentString"
+	                android:layout_toRightOf="@+id/oa_comment"
+	                android:background="@color/oa_comment"
+   	           		android:textColor="@color/lightGrey"
+   	           		android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	            <TextView
+	                android:id="@+id/showCommentCount"
+	                android:layout_width="wrap_content"
+	                android:layout_height="match_parent"
+	                android:layout_toRightOf="@+id/comment"
+   	                android:background="@color/oa_comment"
+   	                android:textColor="@color/lightGrey"
+	                android:text="..."
+	                android:textAppearance="?android:attr/textAppearanceMedium" />
+	            
+	            <TextView
+	                android:layout_width="wrap_content"
+	                android:layout_height="match_parent"
+	                android:layout_toRightOf="@+id/showCommentCount"
+	                android:text="@string/forwardChar"
+   	                android:background="@color/oa_comment"
+   	           		android:textColor="@color/lightGrey"
+	                android:textAppearance="?android:attr/textAppearanceMedium" />
+            
+            </LinearLayout>
+       </LinearLayout>
+        
+    </ScrollView>
+
+</LinearLayout>
