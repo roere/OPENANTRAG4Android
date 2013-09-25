@@ -30,8 +30,8 @@ public class MainActivity extends Activity {
 		try {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_main);	
-			//StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-			//StrictMode.setThreadPolicy(policy); 
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			StrictMode.setThreadPolicy(policy); 
 			
 			buildFilterView();
 		} catch (Exception e) {
@@ -54,14 +54,16 @@ public class MainActivity extends Activity {
 				list.add(rList.get(i).getName());
 			}
 			Storage.representationList = rList; //persist representation list
-			//list.add(0, "...");
 			
 			tList = GetTags.execute();
 			tList.add(0, "...");
 		} catch (OpenAntragException e) {
-			list.add("list 1");
-			list.add("list 2");
-			list.add("list 3");
+			e.printStackTrace();
+			AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
+			alert.setTitle("Fehler!");
+			alert.setMessage(e.getMessage());
+			alert.setCanceledOnTouchOutside(true);
+			alert.show();
 		}
 		
 		Spinner lView = (Spinner)findViewById(R.id.representationList);		
@@ -88,36 +90,8 @@ public class MainActivity extends Activity {
 	/**
 	 * 
 	 */
-	public void onClickFind(View view) {
-		
+	public void onClickFind(View view) {		
 		new RemoteDataTask().execute();
-		/*
-		Spinner rSpinner = (Spinner)findViewById(R.id.representationList);	
-		Spinner tSpinner = (Spinner)findViewById(R.id.tagsList);
-		
-		String repName = (String)rSpinner.getSelectedItem();
-		int itemNo = rSpinner.getSelectedItemPosition();
-		String key = Storage.representationList.get(itemNo).getKey();
-		ProposalFile file = null;
-		try {
-			file = GetTop.execute(20,
-									key);
-			Storage.proposalFile = file;
-			Storage.representationKey = key;
-			Intent showProposalList = new Intent(this, ProposalListAct.class);
-			//showProposalList.putExtra(Constants.REPRESENTATION_KEY, 
-			//							key);
-			startActivity(showProposalList);
-			
-		} catch (OpenAntragException e) {
-			e.printStackTrace();
-			AlertDialog alert = new AlertDialog.Builder(this).create();
-			alert.setTitle("Fehler!");
-			alert.setMessage(e.getMessage());
-			alert.setCanceledOnTouchOutside(true);
-			alert.show();
-		}
-		*/
 	}
 	
     private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
