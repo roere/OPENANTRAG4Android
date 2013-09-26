@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.tc.json.JSONArray;
 import org.tc.json.JSONObject;
 import org.tc.json.JSONTokener;
+import org.tc.json.ParseUtils;
 import org.tc.openantrag4J.Constants;
 import org.tc.openantrag4J.OpenAntragException;
 import org.tc.openantrag4J.Utils;
@@ -47,7 +48,7 @@ public abstract class GetTop {
 			throw new OpenAntragException("Error opening URL:"+u,e);
 		}
 		JSONArray ar = new JSONArray(tok);
-		return ProposalFactory.parseProposolFileJSON(ar);
+		return ParseUtils.parseProposolFileJSON(ar);		
 		
 	}
 	

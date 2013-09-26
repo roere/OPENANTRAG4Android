@@ -2,6 +2,15 @@ package org.tc.openantrag4J.representation.android;
 
 import android.graphics.Bitmap;
 
+/**
+ * Container-Class for Representative-Objects.
+ * The 'normal' Openantrag4J Representative-Class uses a BufferedImage to store the represenatives portrait.
+ * As that class is not available in the Android SDK this Android version of the Representative-Class uses a
+ * Bitmap-Object instead. 
+ * 
+ * @author roere
+ *
+ */
 public class Representative {
 	
 	private String key = "";

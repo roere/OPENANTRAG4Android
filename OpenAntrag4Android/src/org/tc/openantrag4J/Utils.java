@@ -29,6 +29,22 @@ public abstract class Utils {
 	/**
 	 * 
 	 * @param command
+	 * @param key
+	 * @return
+	 */
+	public static String getProposalURL (String command, String key) {
+		return Utils.getBaseURL()+"/"+
+				Constants.API_URL+"/"+
+				Constants.PROPOSAL_URL+"/"+
+				key+"/"+
+				command;		
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param command
 	 * @param representationKey
 	 * @param tag
 	 * @return
@@ -41,7 +57,7 @@ public abstract class Utils {
 					command+"/"+
 					tag;
 	}
-	
+		
 	/**
 	 * 
 	 * @param key
@@ -50,7 +66,7 @@ public abstract class Utils {
 	private static String getKeyURL (String key) {
 		return Utils.getBaseURL()+"/"+
 				Constants.API_URL+"/"+
-				Constants.COMMAND_PROPOSAL+
+				Constants.PROPOSAL_URL+
 				"/"+key;
 	}
 	

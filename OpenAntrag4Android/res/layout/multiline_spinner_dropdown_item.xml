@@ -6,3 +6,5 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:textAppearance="?android:attr/textAppearanceMedium"
     android:ellipsize="marquee" />
+
+    

@@ -5,6 +5,7 @@ import java.util.*;
 import org.tc.openantrag4J.OpenAntragException;
 import org.tc.openantrag4J.representation.Representation;
 import org.tc.openantrag4J.representation.RepresentationFactory;
+import org.tc.openantrag4j.commands.GetCount;
 import org.tc.openantrag4j.commands.GetTags;
 import org.tc.openantrag4j.commands.GetTop;
 import org.tc.openantrag4j.proposal.ProposalFile;
@@ -128,8 +129,54 @@ public class MainActivity extends Activity {
     		dataAdapter2.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
     		tView.setAdapter(dataAdapter2);
             mProgressDialog.dismiss();
+            new ProposalCountRemoteDataTask().execute();
         }
     }
+    
+    /**
+     * Loads the number of proposals for each representation and adds that information to the spinner entries.
+     * @author roere
+     *
+     */
+    private class ProposalCountRemoteDataTask extends AsyncTask<Void, Void, Void> {
+    	    	
+    	ArrayList<Integer> proposalCount = null;
+    	
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+ 
+        @Override
+        protected Void doInBackground(Void... params) {
+        	ArrayList<Representation> rList = Storage.representationList;
+        	proposalCount = new ArrayList<Integer>();
+        	for (int i=0;i<rList.size();i++) {
+            	try {
+					proposalCount.add(GetCount.execute(rList.get(i).getKey()));
+				} catch (OpenAntragException e) {
+					//do absolutely nothing
+				}        		
+        	}
+            return null;
+        }
+ 
+        @Override
+        protected void onPostExecute(Void result) {
+    		Spinner lView = (Spinner)findViewById(R.id.representationList);
+    		ArrayList<String> elementList = new ArrayList<String>();
+    		ArrayAdapter<String> adapter = (ArrayAdapter<String>)lView.getAdapter();
+    		for (int i=0;i<adapter.getCount();i++) {
+    			elementList.add(adapter.getItem(i)+" ("+proposalCount.get(i)+")");
+    		}
+    		adapter = new ArrayAdapter<String>(MainActivity.this,
+        											android.R.layout.simple_spinner_item, 
+        											elementList);
+    		adapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
+    		lView.setAdapter(adapter);
+        }
+    }
+
 	
     /**
      * AsyncTask loads proposallist for next Activity

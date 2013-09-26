@@ -63,49 +63,7 @@ public abstract class ProposalFactory {
 			throw new OpenAntragException("Error opening URL:"+u,e);
 		}		
 		JSONArray ar = new JSONArray(tok);
-		return ProposalFactory.parseProposolFileJSON(ar);
-		
-		/*
-		ProposalFile result = new ProposalFile();
-		
-		for (int i=0;i<ar.length();i++) {
-			Proposal p = new Proposal();
-			p.setTextHTML(((JSONObject)ar.get(i)).get(Constants.FIELD_TEXT_HTML)+"");
-			p.setExternalShortUrl(((JSONObject)ar.get(i)).get(Constants.FIELD_EXTERNAL_SHORT_URL)+"");
-			p.setShortUrl(((JSONObject)ar.get(i)).get(Constants.FIELD_SHORT_URL)+"");
-			p.setExternalUrl(((JSONObject)ar.get(i)).get(Constants.FIELD_EXTERNAL_URL)+"");
-			p.setiDCurrentProposalStep(((JSONObject)ar.get(i)).get(Constants.FIELD_ID_CURRENT_PROPOSAL_STEP)+"");
-			
-			p.setTitleURL(((JSONObject)ar.get(i)).get(Constants.FIELD_TITLE_URL)+"");
-			p.setiD(((JSONObject)ar.get(i)).get(Constants.FIELD_ID)+"");
-			p.setKeyRepresentation(((JSONObject)ar.get(i)).get(Constants.FIELD_KEY_REPRESENTATION)+"");
-			p.setKeyRepresentative(((JSONObject)ar.get(i)).get(Constants.FIELD_KEY_REPRESENTATIVE)+"");
-			p.setTimeStamp(((JSONObject)ar.get(i)).get(Constants.FIELD_TIMESTAMP)+"");	
-			p.setTextMarkDown(((JSONObject)ar.get(i)).get(Constants.FIELD_TEXTMARKDOWN)+"");	
-			p.setKeyCommittee(((JSONObject)ar.get(i)).get(Constants.FIELD_KEY_COMMITTEE)+"");	
-			p.setTextRaw(((JSONObject)ar.get(i)).get(Constants.FIELD_TEXT_RAW)+"");	
-			p.setFullURL(((JSONObject)ar.get(i)).get(Constants.FIELD_FULL_URL)+"");	
-			
-			String c = ((JSONObject)ar.get(i)).get(Constants.FIELD_CREATED_AT)+"";
-			try {
-				p.setCreatedAt(new SimpleDateFormat(Constants.DATE_FORMAT).parse(c));
-			} catch (ParseException e) {
-				throw new OpenAntragException("Couldn't parse date '"+c+"' for Proposal with ID '"+p.getiD()+"'.",e);
-			}
-			
-			StringTokenizer sTok = new StringTokenizer(((JSONObject)ar.get(i)).get(Constants.FIELD_TAGS_LIST)+"", ",");
-			ArrayList<String> tags = new ArrayList<String>();
-			while (sTok.hasMoreElements()) {
-				String t = sTok.nextToken();
-				tags.add(t);
-				result.setTag(t, p);
-			}
-			p.setTags(tags);
-						
-			result.add(p);
-		}
-		return result;
-		*/
+		return ParseUtils.parseProposolFileJSON(ar);		
 	}
 	
 	/**
@@ -115,6 +73,8 @@ public abstract class ProposalFactory {
 	 * @throws OpenAntragException
 	 */
 	public static ProposalFile parseProposolFileJSON (JSONArray ar) throws OpenAntragException {
+		return ParseUtils.parseProposolFileJSON(ar);		
+		/*
 		ProposalFile result = new ProposalFile();		
 		for (int i=0;i<ar.length();i++) {
 			Proposal p = new Proposal();
@@ -186,6 +146,7 @@ public abstract class ProposalFactory {
 			result.add(p);
 		}
 		return result;
+		*/
 	}
 	
 	/**

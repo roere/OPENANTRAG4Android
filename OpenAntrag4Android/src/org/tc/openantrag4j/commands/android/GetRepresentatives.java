@@ -15,6 +15,14 @@ import org.tc.openantrag4J.representation.android.Representative;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+/**
+ * Loads a List of all Representatives for the given Representation.
+ * This is a special Android-Version of that class, due to the fact, that BufferedImage is not available
+ * in the Android SDK. (see comment in Representative.class)
+ * 
+ * @author roere
+ *
+ */
 public abstract class GetRepresentatives {
 	
 	public static ArrayList<Representative> execute (String representationID) throws OpenAntragException {

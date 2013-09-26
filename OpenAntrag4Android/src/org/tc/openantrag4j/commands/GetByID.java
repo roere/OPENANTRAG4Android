@@ -31,7 +31,7 @@ public abstract class GetByID {
 			throw new OpenAntragException("Error opening URL:"+u,e);
 		}
 		JSONArray ar = new JSONArray(tok);
-		return ProposalFactory.parseProposolFileJSON(ar);
+		return ParseUtils.parseProposolFileJSON(ar);		
 	}
 
 }

@@ -2,7 +2,7 @@ package org.tc.openantrag4android;
 
 public abstract class Constants {
 	
-	public static String version = "0.95";
+	public static String version = "0.950001";
 
 	public static String REPRESENTATION_KEY = "representationKey";
 	public static String SELECTED_ITEM = "selectedItem";
