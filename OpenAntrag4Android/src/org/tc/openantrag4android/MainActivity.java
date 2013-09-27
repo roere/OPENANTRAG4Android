@@ -35,8 +35,8 @@ public class MainActivity extends Activity {
 		try {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_main);	
-			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-			StrictMode.setThreadPolicy(policy); 
+			//StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			//StrictMode.setThreadPolicy(policy); 
 			
 			new RemotePreDataTask().execute();
 		} catch (Exception e) {
@@ -170,7 +170,7 @@ public class MainActivity extends Activity {
     			elementList.add(adapter.getItem(i)+" ("+proposalCount.get(i)+")");
     		}
     		adapter = new ArrayAdapter<String>(MainActivity.this,
-        											android.R.layout.simple_spinner_item, 
+        											R.layout.multiline_spinner_item, 
         											elementList);
     		adapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
     		lView.setAdapter(adapter);
