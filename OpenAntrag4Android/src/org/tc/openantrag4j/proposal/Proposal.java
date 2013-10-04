@@ -3,12 +3,12 @@ package org.tc.openantrag4j.proposal;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.tc.json.JSONArray;
+import org.tc.json.JSONObject;
 
 public class Proposal {
 	
-	private ArrayList<ProposalStep> proposalSteps = null;
+	private ArrayList<ProcessStep> proposalSteps = null;
 	private String externalUrl = "";
 	private String isAbuse = "";
 	private String abuseMessage = "";
@@ -34,6 +34,15 @@ public class Proposal {
 //	private JSONObject feedItem = null;
 	
 	public Proposal() {
+	}
+	
+	/**
+	 * 
+	 * @param p
+	 * @return
+	 */
+	public boolean equals(Proposal p) {
+		return this.getiD().equals(p.getiD());
 	}
 
 	/**
@@ -320,14 +329,14 @@ public class Proposal {
 	/**
 	 * @return the proposalSteps
 	 */
-	public ArrayList<ProposalStep> getProposalSteps() {
+	public ArrayList<ProcessStep> getProposalSteps() {
 		return proposalSteps;
 	}
 
 	/**
 	 * @param proposalSteps the proposalSteps to set
 	 */
-	public void setProposalSteps(ArrayList<ProposalStep> proposalSteps) {
+	public void setProposalSteps(ArrayList<ProcessStep> proposalSteps) {
 		this.proposalSteps = proposalSteps;
 	}
 

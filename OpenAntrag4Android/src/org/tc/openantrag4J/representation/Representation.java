@@ -18,7 +18,7 @@ import org.tc.openantrag4j.commands.GetKeyValueList;
 import org.tc.openantrag4j.commands.GetTags;
 import org.tc.openantrag4j.commands.GetTop;
 import org.tc.openantrag4j.proposal.ProposalFactory;
-import org.tc.openantrag4j.proposal.ProposalFile;
+import org.tc.openantrag4j.proposal.ProposalSet;
 
 public class Representation {
 
@@ -84,8 +84,8 @@ public class Representation {
 	public static void main(String[] args) {
 		try {
 			ArrayList<Representation> rList = GetKeyValueList.execute();
-			//ProposalFile file = ProposalFactory.getAll(0,20);
-			ProposalFile file = GetTop.execute(20, "wiesbaden");
+			//ProposalSet file = ProposalFactory.getAll(0,20);
+			ProposalSet file = GetTop.execute(20, "wiesbaden");
 			ProposalFactory.getComments(file);
 			GetComments.execute(file.get(0).getiD());
 			ArrayList<String> tags = file.getTags();

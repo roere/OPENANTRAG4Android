@@ -5,10 +5,11 @@ import java.util.*;
 import org.tc.openantrag4J.OpenAntragException;
 import org.tc.openantrag4J.representation.Representation;
 import org.tc.openantrag4J.representation.RepresentationFactory;
+import org.tc.openantrag4j.commands.GetByTag;
 import org.tc.openantrag4j.commands.GetCount;
 import org.tc.openantrag4j.commands.GetTags;
 import org.tc.openantrag4j.commands.GetTop;
-import org.tc.openantrag4j.proposal.ProposalFile;
+import org.tc.openantrag4j.proposal.ProposalSet;
 
 import com.tc.openantrag4android.R;
 
@@ -22,6 +23,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.*;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 /**
  * 
@@ -29,14 +31,68 @@ import android.widget.*;
  *
  */
 public class MainActivity extends Activity {
+	
+	Boolean forceReload = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) { 
 		try {
 			super.onCreate(savedInstanceState);
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			StrictMode.setThreadPolicy(policy); 
+			
+			//reload on first call or after a defined period of time.
+			forceReload = getIntent().getBooleanExtra(Constants.FORCE_RELOAD, true)||
+					((System.currentTimeMillis()-Storage.lastReloadMainPage)>(Constants.RELOAD_MAIN*1000));
+			
 			setContentView(R.layout.activity_main);	
-			//StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-			//StrictMode.setThreadPolicy(policy); 
+			
+    		Spinner lView = (Spinner)findViewById(R.id.representationList);		
+    		Spinner tView = (Spinner)findViewById(R.id.tagsList);		
+    		
+    		//set onItemSelectListener for REPRESENTATION Spinner
+    		lView.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}
+			});
+    		
+    		//set onItemSelectListener for TAG Spinner
+    		tView.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					String tag = (String)((Spinner)arg0).getItemAtPosition(arg2);
+					Spinner lView = (Spinner)findViewById(R.id.representationList);
+		    		String rep = (String)lView.getItemAtPosition(0);
+					if (tag.equals(Constants.ALL_IDENTIFIER)) {
+			    		if (rep.equals(Constants.ALL_IDENTIFIER)) {
+			    			ArrayAdapter<String> adapter = (ArrayAdapter<String>)lView.getAdapter();
+			    			adapter.remove(Constants.ALL_IDENTIFIER);
+			    			Storage.representationList.remove(0);
+			    		}
+					} else {
+						if (!rep.equals(Constants.ALL_IDENTIFIER)) {
+			    			ArrayAdapter<String> adapter = (ArrayAdapter<String>)lView.getAdapter();
+			    			adapter.insert(Constants.ALL_IDENTIFIER, 0);
+			    			Storage.representationList.add(0, 
+			    					new Representation(org.tc.openantrag4J.Constants.COMMAND_KEY_ALL_REPRESENTATION,
+			    										org.tc.openantrag4J.Constants.COMMAND_KEY_ALL_REPRESENTATION));
+			    		}
+					}
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}
+			});
 			
 			new RemotePreDataTask().execute();
 		} catch (Exception e) {
@@ -58,7 +114,8 @@ public class MainActivity extends Activity {
 	}
 		
 	/**
-	 * 
+	 * Starts if search button was clicked.
+	 * Executes an AsyncTask to load proposal lists for the next view.
 	 */
 	public void onClickFind(View view) {		
 		new RemoteDataTask().execute();
@@ -71,52 +128,45 @@ public class MainActivity extends Activity {
 	 */
     private class RemotePreDataTask extends AsyncTask<Void, Void, Void> {
     	
-    	ProgressDialog mProgressDialog = null;
-		ArrayList<String> tList = null;
-		List<String> list = new ArrayList<String>();		
+    	ProgressDialog mProgressDialog = null;		
     	
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             // Create a progressdialog
             mProgressDialog = new ProgressDialog(MainActivity.this);
-            // Set progressdialog title
-            //mProgressDialog.setTitle("OPENANTRAG");
             // Set progressdialog message
             mProgressDialog.setMessage("Lade Daten...");
             mProgressDialog.setIndeterminate(false);
-            //mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             // Show progressdialog
             mProgressDialog.show();
         }
  
         @Override
         protected Void doInBackground(Void... params) {
-        	list = new ArrayList<String>();		
-    		ArrayList<Representation> rList = null;
-    		tList = null;
-    		try {
-    			rList = RepresentationFactory.getAll();
-    			for (int i=0;i<rList.size();i++) {
-    				list.add(rList.get(i).getName());
-    			}
-    			Storage.representationList = rList; //persist representation list
-    			
-    			tList = GetTags.execute();
-    			tList.add(0, "...");
-    		} catch (OpenAntragException e) {
-    			e.printStackTrace();
-    			AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
-    			alert.setTitle("Fehler!");
-    			alert.setMessage(e.getMessage());
-    			alert.setCanceledOnTouchOutside(true);
-    			alert.show();
-    		}
+        	if (forceReload) {
+	    		ArrayList<Representation> rList = null;
+	    		ArrayList<String> tList = null;
+	    		try {
+	    			rList = RepresentationFactory.getAll();
+	    			Storage.representationList = rList; //persist representation list
+	    			
+	    			tList = GetTags.execute();
+	    			tList.add(0, Constants.ALL_IDENTIFIER);
+	    			Storage.tagList = tList;
+	    		} catch (OpenAntragException e) {
+	    			e.printStackTrace();
+	    		}
+        	}
             return null;
         }
  
         @Override
         protected void onPostExecute(Void result) {
+        	ArrayList<String> list = new ArrayList<String>();		
+			for (int i=0;i<Storage.representationList.size();i++) {
+				list.add(Storage.representationList.get(i).getName());
+			}
     		Spinner lView = (Spinner)findViewById(R.id.representationList);		
     		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this,
     			android.R.layout.simple_spinner_item, list);	
@@ -125,7 +175,7 @@ public class MainActivity extends Activity {
     		
     		Spinner tView = (Spinner)findViewById(R.id.tagsList);		
     		ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(MainActivity.this,
-    			android.R.layout.simple_spinner_item, tList);	
+    			android.R.layout.simple_spinner_item, Storage.tagList);	
     		dataAdapter2.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
     		tView.setAdapter(dataAdapter2);
             mProgressDialog.dismiss();
@@ -149,14 +199,17 @@ public class MainActivity extends Activity {
  
         @Override
         protected Void doInBackground(Void... params) {
-        	ArrayList<Representation> rList = Storage.representationList;
-        	proposalCount = new ArrayList<Integer>();
-        	for (int i=0;i<rList.size();i++) {
-            	try {
-					proposalCount.add(GetCount.execute(rList.get(i).getKey()));
-				} catch (OpenAntragException e) {
-					//do absolutely nothing
-				}        		
+        	if (forceReload) {
+	        	ArrayList<Representation> rList = Storage.representationList;
+	        	proposalCount = new ArrayList<Integer>();
+	        	for (int i=0;i<rList.size();i++) {
+	            	try {
+						proposalCount.add(GetCount.execute(rList.get(i).getKey()));
+					} catch (OpenAntragException e) {
+						//do absolutely nothing
+					}        		
+	        	}
+	        	Storage.proposalCount = proposalCount;
         	}
             return null;
         }
@@ -164,16 +217,27 @@ public class MainActivity extends Activity {
         @Override
         protected void onPostExecute(Void result) {
     		Spinner lView = (Spinner)findViewById(R.id.representationList);
+    		
+    		//check, if All_Representations is selectable (Item 0) and start updating entries starting
+    		//with position 1 in that case
+    		Integer increment = 0;
+    		if (((String)lView.getItemAtPosition(0)).equals(Constants.ALL_IDENTIFIER))
+    			increment = 1;
+    			
+    		//load spinner entries (representations) and add number of proposals 
     		ArrayList<String> elementList = new ArrayList<String>();
     		ArrayAdapter<String> adapter = (ArrayAdapter<String>)lView.getAdapter();
-    		for (int i=0;i<adapter.getCount();i++) {
-    			elementList.add(adapter.getItem(i)+" ("+proposalCount.get(i)+")");
+    		for (int i=increment;i<adapter.getCount();i++) {
+    			elementList.add(adapter.getItem(i)+" ("+Storage.proposalCount.get(i-increment)+")");
     		}
     		adapter = new ArrayAdapter<String>(MainActivity.this,
         											R.layout.multiline_spinner_item, 
         											elementList);
     		adapter.setDropDownViewResource(R.layout.multiline_spinner_dropdown_item);
     		lView.setAdapter(adapter);
+    		
+    		//set forceReload to false. Reload will start after defined time (s. Constants).
+    		forceReload = false;
         }
     }
 
@@ -186,7 +250,7 @@ public class MainActivity extends Activity {
     private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
     	
     	ProgressDialog mProgressDialog = null;
-		ProposalFile file = null;
+		ProposalSet file = null;
     	
         @Override
         protected void onPreExecute() {
@@ -209,19 +273,23 @@ public class MainActivity extends Activity {
     		
     		int itemNo = rSpinner.getSelectedItemPosition();
     		String key = Storage.representationList.get(itemNo).getKey();
-    		ProposalFile file = null;
+    		String tag = (String)tSpinner.getSelectedItem();
+    		ProposalSet file = null;
     		try {
-    			file = GetTop.execute(20,
-    									key);
+    			/*
+    			 * Load Top 20 Proposal of the given Representation if no tag is specified or all proposal of that representation with the given tag. 
+    			 */
+    			if (tag.equals(Constants.ALL_IDENTIFIER)) {
+    				file = GetTop.execute(Constants.PAGE_COUNT, key);
+    				Storage.tag = null;
+    			} else {
+    				file = GetByTag.execute(key, tag);
+    				Storage.tag = tag;
+    			}
     			Storage.proposalFile = file;
     			Storage.representationKey = key;    			
     		} catch (OpenAntragException e) {
     			e.printStackTrace();
-    			AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
-    			alert.setTitle("Fehler!");
-    			alert.setMessage(e.getMessage());
-    			alert.setCanceledOnTouchOutside(true);
-    			alert.show();
     		}
             return null;
         }

@@ -16,12 +16,12 @@ import org.tc.openantrag4J.Utils;
 import org.tc.openantrag4J.representation.Representation;
 import org.tc.openantrag4j.proposal.Proposal;
 import org.tc.openantrag4j.proposal.ProposalFactory;
-import org.tc.openantrag4j.proposal.ProposalFile;
+import org.tc.openantrag4j.proposal.ProposalSet;
 
 public abstract class GetTop {
 
 
-	public static ProposalFile execute (int count) throws OpenAntragException {
+	public static ProposalSet execute (int count) throws OpenAntragException {
 		return GetTop.execute(count, Constants.COMMAND_KEY_ALL_REPRESENTATION);
 	}
 	
@@ -30,7 +30,7 @@ public abstract class GetTop {
 	 * @return
 	 * @throws OpenAntragException 
 	 */
-	public static ProposalFile execute(int count, String representationID) throws OpenAntragException {
+	public static ProposalSet execute(int count, String representationID) throws OpenAntragException {
 		
 		String u = Utils.getTop(count, representationID);
 		URL url; 

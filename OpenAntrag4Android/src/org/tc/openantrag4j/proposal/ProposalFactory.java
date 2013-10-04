@@ -26,7 +26,7 @@ public abstract class ProposalFactory {
 	 * @return
 	 * @throws OpenAntragException 
 	 */
-	public static ProposalFile getAll(int page, int pageCount) throws OpenAntragException {
+	public static ProposalSet getAll(int page, int pageCount) throws OpenAntragException {
 		return ProposalFactory.getByRepresentationID(Constants.COMMAND_KEY_ALL_REPRESENTATION,page,pageCount);
 	}
 	
@@ -36,7 +36,7 @@ public abstract class ProposalFactory {
 	 * @return
 	 * @throws OpenAntragException 
 	 */
-	public static ProposalFile getByRepresentation(Representation rep,int page, int pageCount) throws OpenAntragException {
+	public static ProposalSet getByRepresentation(Representation rep,int page, int pageCount) throws OpenAntragException {
 		return ProposalFactory.getByRepresentationID(rep.getKey(),page,pageCount);
 	}
 	
@@ -46,7 +46,7 @@ public abstract class ProposalFactory {
 	 * @return
 	 * @throws OpenAntragException 
 	 */
-	public static ProposalFile getByRepresentationID(String id,int page, int pageCount) throws OpenAntragException {	
+	public static ProposalSet getByRepresentationID(String id,int page, int pageCount) throws OpenAntragException {	
 		String u = Utils.getPageURL(page, pageCount, id);
 		URL url = null;
 		
@@ -72,10 +72,10 @@ public abstract class ProposalFactory {
 	 * @return
 	 * @throws OpenAntragException
 	 */
-	public static ProposalFile parseProposolFileJSON (JSONArray ar) throws OpenAntragException {
+	public static ProposalSet parseProposolFileJSON (JSONArray ar) throws OpenAntragException {
 		return ParseUtils.parseProposolFileJSON(ar);		
 		/*
-		ProposalFile result = new ProposalFile();		
+		ProposalSet result = new ProposalSet();		
 		for (int i=0;i<ar.length();i++) {
 			Proposal p = new Proposal();
 			p.setTextHTML(((JSONObject)ar.get(i)).get(Constants.FIELD_TEXT_HTML)+"");
@@ -105,9 +105,9 @@ public abstract class ProposalFactory {
 			
 			//parse and set ProposalSteps...
 			JSONArray ar2 = (JSONArray)((JSONObject)ar.get(i)).get(Constants.FIELD_PROPOSAL_STEPS);
-			ArrayList<ProposalStep> pSteps = new ArrayList<ProposalStep>();
+			ArrayList<ProcessStep> pSteps = new ArrayList<ProcessStep>();
 			for (int j=0;j<ar2.length();j++) {
-				ProposalStep step = new ProposalStep();
+				ProcessStep step = new ProcessStep();
 				JSONObject jObject = (JSONObject)((JSONObject)ar2.get(j)).get(Constants.FIELD_PROCESS_STEP);
 				step.setCaption(jObject.get(Constants.FIELD_CAPTION)+"");
 				step.setShortCaption(jObject.get(Constants.FIELD_SHORT_CAPTION)+"");
@@ -154,7 +154,7 @@ public abstract class ProposalFactory {
 	 * @param file
 	 * @throws OpenAntragException 
 	 */
-	public static void getComments(ProposalFile file) throws OpenAntragException {
+	public static void getComments(ProposalSet file) throws OpenAntragException {
 		for (int i=0;i<file.size();i++) {
 			ProposalFactory.getComments(file.get(i));
 		}

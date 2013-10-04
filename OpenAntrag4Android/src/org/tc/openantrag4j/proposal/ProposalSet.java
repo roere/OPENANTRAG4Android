@@ -3,7 +3,7 @@ package org.tc.openantrag4j.proposal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ProposalFile extends ArrayList<Proposal>{
+public class ProposalSet extends ArrayList<Proposal>{
 
 	static final long serialVersionUID = 0;
 	
@@ -13,7 +13,20 @@ public class ProposalFile extends ArrayList<Proposal>{
 	/**
 	 * 
 	 */
-	public ProposalFile() {
+	public ProposalSet() {
+	}
+	
+	/**
+	 * 
+	 * @param p
+	 * @return
+	 */
+	public boolean contains(Proposal p) {
+		for (int i=0;i<this.size();i++) {
+			if (p.getiD().equals(this.get(i).getiD()))
+					return true;
+		}
+		return false;
 	}
 		
 	/**

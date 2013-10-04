@@ -19,6 +19,7 @@
     <color name="white">#ffffff</color>
     <string name="setFilter">Filter setzen</string>
     <color name="lightGrey">#f4f4f4</color>
+	<color name="lightGrey2">#e0e0e0</color>
     <color name="darkGrey">#333333</color>
     <string name="showProposals">Antragsliste</string>
     <string name="representative">Ansprechpartner</string>

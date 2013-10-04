@@ -1,15 +1,17 @@
 package org.tc.openantrag4android;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import org.tc.openantrag4J.OpenAntragException;
+import org.tc.openantrag4J.representation.RepresentationSet;
 import org.tc.openantrag4android.adapter.ProposalEntry;
 import org.tc.openantrag4android.adapter.ProposalEntryAdapter;
+import org.tc.openantrag4j.commands.GetByTag;
+import org.tc.openantrag4j.commands.GetCount;
 import org.tc.openantrag4j.commands.GetPage;
 import org.tc.openantrag4j.commands.GetTop;
 import org.tc.openantrag4j.proposal.Proposal;
-import org.tc.openantrag4j.proposal.ProposalFile;
+import org.tc.openantrag4j.proposal.ProposalSet;
 
 import com.tc.openantrag4android.R;
 
@@ -19,13 +21,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver;
-import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
@@ -77,6 +75,7 @@ public class ProposalListAct extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent mainActivity = new Intent(ProposalListAct.this, MainActivity.class);
+				mainActivity.putExtra(Constants.FORCE_RELOAD, false);
 				startActivity(mainActivity);
 			}
 		});
@@ -88,6 +87,7 @@ public class ProposalListAct extends Activity {
 
 				Intent showProposal = new Intent(ProposalListAct.this, ShowProposalAct.class);
 				showProposal.putExtra(Constants.SELECTED_ITEM, (int)arg3);
+				showProposal.putExtra(Constants.FORCE_RELOAD, true);
 				Storage.proposal = Storage.proposalFile.get((int)arg3);
 				startActivity(showProposal);
 				
@@ -99,18 +99,25 @@ public class ProposalListAct extends Activity {
         	 
             @Override
             public void onScrollStateChanged(AbsListView view,
-                    int scrollState) { // TODO Auto-generated method stub
+                    int scrollState) {
                 int threshold = 1;
                 int count = lView.getCount();
 
                 if (scrollState == SCROLL_STATE_IDLE) {
                     if (lView.getLastVisiblePosition() >= count
                             - threshold) {
-                        // Execute Task to retrieve more Data, at max every 2 seconds
-                    	Integer pages = (int)Math.floor(count/Constants.pageCount);
-                   		Integer rest = (int)Math.abs(count - (pages)*Constants.pageCount);
-                    	if ((System.currentTimeMillis()-Storage.lastReload)>5000)
-                    		new RemoteDataTask().execute(pages, rest, count);
+                        // Execute Task to retrieve more Data, at max every 5 seconds
+                    	Integer pages = (int)Math.floor(count/Constants.PAGE_COUNT);
+                   		Integer rest = (int)Math.abs(count - (pages)*Constants.PAGE_COUNT);
+                   		Integer pTotalCount = -1;
+                   		try {
+							pTotalCount = GetCount.execute(Storage.representationKey);
+						} catch (OpenAntragException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+                    	if ((System.currentTimeMillis()-Storage.lastReloadProposalPage)>5000)
+                    		new RemoteDataTask().execute(pages, rest, count, pTotalCount);
 
                     }
                 }
@@ -126,19 +133,27 @@ public class ProposalListAct extends Activity {
         });				
 	}
 	
-	public void buildProposalList() {
+	/**
+	 * Build List of Proposal Entries
+	 */
+	private void buildProposalList() {
 		final ListView lView = (ListView)findViewById(R.id.listViewProposal);
 		// build proposal list output		
 		ArrayList<ProposalEntry> pElements = new ArrayList<ProposalEntry>();
+		RepresentationSet rFile = new RepresentationSet(Storage.representationList);
 		for (int i=0;i<Storage.proposalFile.size();i++) {
 			Proposal p = Storage.proposalFile.get(i);
-			pElements.add(new ProposalEntry(p.getTitleText(), 
-												p.getProposalSteps().get(p.getProposalSteps().size()-1).getCaption(),
+			pElements.add(new ProposalEntry(p.getTitleText(),
+												AndroidUtils.setVariables(p.getProposalSteps().get(p.getProposalSteps().size()-1).getCaption(),
+																			null,
+																			null),
 												p.getProposalSteps().get(p.getProposalSteps().size()-1).getColor(),
-												p.getCreatedAt()));
+												rFile.getByID(p.getKeyRepresentation()).getName(),
+												p.getCreatedAt(),
+												(Math.abs(i/2)==((double)i/2))));
 		}
 		
-		ProposalEntryAdapter pAdapter = new ProposalEntryAdapter(this, R.layout.list_item, pElements);
+		ProposalEntryAdapter pAdapter = new ProposalEntryAdapter(this, R.layout.show_proposal_list_item, pElements);
 	    lView.setAdapter(pAdapter);		
 	}
 	
@@ -154,6 +169,11 @@ public class ProposalListAct extends Activity {
 		super.onStop();
 	}
 	
+	/**
+	 * 
+	 * @author roere
+	 *
+	 */
     private class RemoteDataTask extends AsyncTask<Integer, Void, Void> {
     	
     	ProgressDialog mProgressDialog = null;
@@ -163,8 +183,6 @@ public class ProposalListAct extends Activity {
             super.onPreExecute();
             // Create a progressdialog
             mProgressDialog = new ProgressDialog(ProposalListAct.this);
-            // Set progressdialog title
-            //mProgressDialog.setTitle("OPENANTRAG");
             // Set progressdialog message
             mProgressDialog.setMessage("Lade Daten...");
             mProgressDialog.setIndeterminate(false);
@@ -172,30 +190,38 @@ public class ProposalListAct extends Activity {
             mProgressDialog.show();
         }
  
+
         @Override
         protected Void doInBackground(Integer... params) {
         	Integer pages = params[0];
-        	Integer rest = params[1];
-        	Integer count = params[2];
+//        	Integer rest = params[1];
+//        	Integer count = params[2];
+//        	Integer pTotalCount = params[3];
         	try {
-				ProposalFile file = null;				
-				if (rest==0) {
-					file = GetPage.execute(Storage.representationKey, 
-											pages+1, 
-											Constants.pageCount);
-					Storage.proposalFile.addAll(file);
-				} else {
-					for (int i=0;i<rest;i++) {
-						file = GetPage.execute(Storage.representationKey, 
-												count+1+i, 
-												1);
-						Storage.proposalFile.addAll(file);
+        		Proposal p = GetPage.execute(Storage.representationKey, 1, 1).get(0);
+				
+        		/*
+        		 * Refresh proposal list:
+        		 * if tag is specified, reload complete list (OA API enables no paging for that)
+        		 * if no tag is specified and proposal list on server has no new entry, load new page
+        		 * if no tag is specified and proposal list on server has new entries reload list up to the current page
+        		 */
+				if (Storage.tag!=null) {
+					Storage.proposalFile = GetByTag.execute(Storage.representationKey, 
+												Storage.tag);
+				} else if (Storage.proposalFile.get(0).equals(p)) {
+					int upperBound = Storage.proposalFile.size();
+					for (int i=upperBound-1;i>=pages*Constants.PAGE_COUNT;i--) {
+						Storage.proposalFile.remove(i);
 					}
+					Storage.proposalFile.addAll(GetPage.execute(Storage.representationKey, 
+																	pages+1, 
+																	Constants.PAGE_COUNT));
+				} else {
+					Storage.proposalFile = GetTop.execute(pages*Constants.PAGE_COUNT, 
+															Storage.representationKey);
 				}
-				if (file.size()>0) {
-					
-				}
-				Storage.lastReload = System.currentTimeMillis();
+				Storage.lastReloadProposalPage = System.currentTimeMillis();
 			} catch (OpenAntragException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

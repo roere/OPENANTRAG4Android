@@ -9,7 +9,7 @@ import org.tc.openantrag4j.commands.GetTop;
 import org.tc.openantrag4j.commands.android.GetRepresentatives;
 import org.tc.openantrag4j.proposal.Comment;
 import org.tc.openantrag4j.proposal.Proposal;
-import org.tc.openantrag4j.proposal.ProposalFile;
+import org.tc.openantrag4j.proposal.ProposalSet;
 
 import com.tc.openantrag4android.R;
 
@@ -49,7 +49,7 @@ public class ShowProposalAct extends Activity {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.show_proposal);
 			
-			buildView(Storage.proposal);
+			buildView(Storage.proposal);			
 			new RemoteDataTask().execute();
 			
 			LinearLayout lLayout = (LinearLayout)findViewById(R.id.showProposalBack);
@@ -137,45 +137,42 @@ public class ShowProposalAct extends Activity {
 		super.onStop();
 	}
 	
+	/**
+	 * Loads Representative-Information and Comments.
+	 * @author roere
+	 *
+	 */
     private class RemoteDataTask extends AsyncTask<Void, Void, Void> {
     	
-    	ProgressDialog mProgressDialog = null;
-    	Representative rep = null;
+		Representative rep = Storage.representative;
     	
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // Create a progressdialog
-            mProgressDialog = new ProgressDialog(ShowProposalAct.this);
-            // Set progressdialog title
-            //mProgressDialog.setTitle("OPENANTRAG");
-            // Set progressdialog message
-            mProgressDialog.setMessage("Lade Daten...");
-            mProgressDialog.setIndeterminate(false);
-            // Show progressdialog
-            mProgressDialog.show();
         }
  
         @Override
         protected Void doInBackground(Void... params) {
-    		try {
-    			ArrayList<Comment> cList = GetComments.execute(Storage.proposal.getiD());
-    			Storage.comments = cList;
-    		} catch (OpenAntragException e) {
-    			e.printStackTrace();
-    		}
-       		try {
-    			ArrayList<Representative> repList = GetRepresentatives.execute(Storage.proposal.getKeyRepresentation());
-    			for (int i=0; i<repList.size();i++) {
-    				if (repList.get(i).getKey().equals(Storage.proposal.getKeyRepresentative())) {
-    					rep = repList.get(i);
-    					break;
-    				}
-    			}    			
-    		} catch (OpenAntragException e1) {
-    			// TODO Auto-generated catch block
-    			e1.printStackTrace();
-    		} 
+			//Reload Data only if Force_Reload is set.
+			if (getIntent().getBooleanExtra(Constants.FORCE_RELOAD, false)) {
+	        	try {
+	    			ArrayList<Comment> cList = GetComments.execute(Storage.proposal.getiD());
+	    			Storage.comments = cList;
+	    		} catch (OpenAntragException e) {
+	    			e.printStackTrace();
+	    		}
+	       		try {
+	    			ArrayList<Representative> repList = GetRepresentatives.execute(Storage.proposal.getKeyRepresentation());
+	    			for (int i=0; i<repList.size();i++) {
+	    				if (repList.get(i).getKey().equals(Storage.proposal.getKeyRepresentative())) {
+	    					rep = repList.get(i);
+	    					break;
+	    				}
+	    			}    			
+	    		} catch (OpenAntragException e1) {
+	    			e1.printStackTrace();
+	    		} 
+			}
             return null;
         }
  
@@ -188,7 +185,7 @@ public class ShowProposalAct extends Activity {
 
         	comments.setText("  "+Storage.comments.size()+"  ");
 			
-			//make clickable if there are any comments
+			//make clickable if comments are available
 			if (Storage.comments.size()>0) {
 				cView.setOnClickListener(new OnClickListener() {
 					@Override
@@ -215,7 +212,7 @@ public class ShowProposalAct extends Activity {
 					}
 				});
 			}
-            mProgressDialog.dismiss();
+            //mProgressDialog.dismiss();
         }
     }	
 }

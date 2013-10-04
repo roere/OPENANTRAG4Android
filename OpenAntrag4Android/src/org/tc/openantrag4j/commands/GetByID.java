@@ -10,11 +10,11 @@ import org.tc.openantrag4J.Constants;
 import org.tc.openantrag4J.OpenAntragException;
 import org.tc.openantrag4J.Utils;
 import org.tc.openantrag4j.proposal.ProposalFactory;
-import org.tc.openantrag4j.proposal.ProposalFile;
+import org.tc.openantrag4j.proposal.ProposalSet;
 
 public abstract class GetByID {
 
-	public static ProposalFile execute(String representationID) throws OpenAntragException {
+	public static ProposalSet execute(String representationID) throws OpenAntragException {
 		String u = Utils.getURL(Constants.COMMAND_GET_BY_ID)+"/"+representationID;
 		URL url; 
 		try {

@@ -45,6 +45,7 @@ public abstract class Constants {
 	public static final String FIELD_EXTERNAL_SHORT_URL = "ExternalShortUrl";
 	public static final String FIELD_KEY = "Key";
 	public static final String FIELD_NAME = "Name";
+	public static final String FIELD_TITLE = "Title";
 	public static final String FIELD_VALUE = "Value";
 	public static final String FIELD_TEXT_HTML = "TextHtml";
 	public static final String FIELD_ID_CURRENT_PROPOSAL_STEP = "ID_CurrentProposalStep";
@@ -77,6 +78,10 @@ public abstract class Constants {
 	public static final String FIELD_FEEDITEM = "FeedItem";
 	public static final String FIELD_FEED_TITLE = "Title";
 	public static final String FIELD_FEED_TEXT = "Text";
+	
+	public static final String FIELD_INFO_TEXT = "InfoText";
+	public static final String FIELD_INFO_HTML = "InfoHtml";
+	
 	public static final String FIELD_COMMENTED_AT_TIMESTAMP = "CommentedAtTimestamp";
 	public static final String FIELD_COMMENTED_AT = "CommentedAt";
 	public static final String FIELD_COMMENTED_BY = "CommentedBy";

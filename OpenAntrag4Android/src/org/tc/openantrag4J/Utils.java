@@ -50,7 +50,7 @@ public abstract class Utils {
 	 * @return
 	 */
 	public static String getURL(String command, String representationKey, String tag) {
-		return Utils.getBaseURL()+
+		return Utils.getBaseURL()+"/"+
 					Constants.API_URL+"/"+
 					Constants.PROPOSAL_URL+"/"+
 					representationKey+"/"+
@@ -73,7 +73,7 @@ public abstract class Utils {
 	/**
 	 * 
 	 * @param page
-	 * @param pageCount
+	 * @param PAGE_COUNT
 	 * @param key
 	 * @return
 	 */
@@ -112,7 +112,7 @@ public abstract class Utils {
 	/**
 	 * 
 	 * @param page
-	 * @param pageCount
+	 * @param PAGE_COUNT
 	 * @return
 	 */
 	public static String getPageURL(int page, int pageCount) {

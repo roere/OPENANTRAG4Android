@@ -3,13 +3,14 @@ package org.tc.json;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 import org.tc.openantrag4J.Constants;
 import org.tc.openantrag4J.OpenAntragException;
 import org.tc.openantrag4j.proposal.Proposal;
-import org.tc.openantrag4j.proposal.ProposalFile;
-import org.tc.openantrag4j.proposal.ProposalStep;
+import org.tc.openantrag4j.proposal.ProposalSet;
+import org.tc.openantrag4j.proposal.ProcessStep;
 
 public abstract class ParseUtils {
 
@@ -22,11 +23,12 @@ public abstract class ParseUtils {
 	 * @return
 	 * @throws OpenAntragException
 	 */
-	public static ProposalFile parseProposolFileJSON (JSONArray ar) throws OpenAntragException {
-		ProposalFile result = new ProposalFile();		
+	public static ProposalSet parseProposolFileJSON (JSONArray ar) throws OpenAntragException {
+		ProposalSet result = new ProposalSet();		
 		for (int i=0;i<ar.length();i++) {
 			Proposal p = new Proposal();
 			p.setTextHTML(((JSONObject)ar.get(i)).get(Constants.FIELD_TEXT_HTML)+"");
+			p.setTitleText(((JSONObject)ar.get(i)).get(Constants.FIELD_TITLE)+"");
 			p.setExternalShortUrl(((JSONObject)ar.get(i)).get(Constants.FIELD_EXTERNAL_SHORT_URL)+"");
 			p.setShortUrl(((JSONObject)ar.get(i)).get(Constants.FIELD_SHORT_URL)+"");
 			p.setExternalUrl(((JSONObject)ar.get(i)).get(Constants.FIELD_EXTERNAL_URL)+"");
@@ -48,18 +50,31 @@ public abstract class ParseUtils {
 			p.setIsAbuse(((JSONObject)ar.get(i)).get(Constants.FIELD_IS_ABUSE)+"");	
 				
 			//parse and add Elements from feed...
-			JSONObject jObj = (JSONObject)((JSONObject)ar.get(i)).get(Constants.FIELD_FEEDITEM);
-			p.setTitleText(((JSONObject)jObj.get(Constants.FIELD_FEED_TITLE)).get(Constants.FIELD_FEED_TEXT)+"");
+			//30.09.13: API seems to be changed. Field 'FeedItem' is no longer available.
+			//JSONObject jObj = (JSONObject)((JSONObject)ar.get(i)).get(Constants.FIELD_FEEDITEM);
+			//p.setTitleText(((JSONObject)jObj.get(Constants.FIELD_FEED_TITLE)).get(Constants.FIELD_FEED_TEXT)+"");
 			
 			//parse and set ProposalSteps...
 			JSONArray ar2 = (JSONArray)((JSONObject)ar.get(i)).get(Constants.FIELD_PROPOSAL_STEPS);
-			ArrayList<ProposalStep> pSteps = new ArrayList<ProposalStep>();
+			ArrayList<ProcessStep> pSteps = new ArrayList<ProcessStep>();
 			for (int j=0;j<ar2.length();j++) {
-				ProposalStep step = new ProposalStep();
+				ProcessStep step = new ProcessStep();
 				JSONObject jObject = (JSONObject)((JSONObject)ar2.get(j)).get(Constants.FIELD_PROCESS_STEP);
 				step.setCaption(jObject.get(Constants.FIELD_CAPTION)+"");
 				step.setShortCaption(jObject.get(Constants.FIELD_SHORT_CAPTION)+"");
 				step.setColor(jObject.get(Constants.FIELD_COLOR)+"");
+				step.setIdProcessStep(((Integer)((JSONObject)ar2.get(j)).get(Constants.FIELD_ID_PROCESS_STEP)));
+				step.setId(((String)((JSONObject)ar2.get(j)).get(Constants.FIELD_ID)));
+				step.setTimestamp(((Integer)((JSONObject)ar2.get(j)).get(Constants.FIELD_TIMESTAMP)));
+				step.setInfoHtml(((String)((JSONObject)ar2.get(j)).get(Constants.FIELD_INFO_HTML)));
+				step.setInfoText(((String)((JSONObject)ar2.get(j)).get(Constants.FIELD_INFO_TEXT)));
+				
+				String c = ((String)((JSONObject)ar2.get(j)).get(Constants.FIELD_CREATED_AT));
+				try {
+					step.setCreatedAt(new SimpleDateFormat(Constants.DATE_FORMAT).parse(c));
+				} catch (ParseException e) {
+					throw new OpenAntragException("Couldn't parse date '"+c+"' for Proposal with ID '"+p.getiD()+"'.",e);
+				}
 				
 				//parse and add nextSteps...
 				ArrayList<String> nSteps = new ArrayList<String>();

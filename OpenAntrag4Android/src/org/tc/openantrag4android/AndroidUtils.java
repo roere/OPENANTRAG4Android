@@ -8,5 +8,20 @@ public abstract class AndroidUtils {
 		else
 			return a;
 	}
+	
+	/**
+	 * Replace variables like %REPRESENTATIVE% with real values.
+	 * @param str
+	 * @return
+	 */
+	public static String setVariables (String str, 
+										String representative,
+										String committee) {
+		if (representative!=null) 
+			str.replace(Constants.VAR_REPRESENTATIVE, representative);
+		if (committee!=null) 
+			str.replace(Constants.VAR_COMMITTEE, committee);
+		return str;
+	}
 
 }
