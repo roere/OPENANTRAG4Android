@@ -9,7 +9,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.tc.json.*;
+import org.tc.json.JSONArray;
+import org.tc.json.JSONObject;
+import org.tc.json.JSONTokener;
+import org.tc.json.ParseUtils;
 import org.tc.openantrag4J.Constants;
 import org.tc.openantrag4J.OpenAntragException;
 import org.tc.openantrag4J.Utils;
@@ -43,21 +46,22 @@ public abstract class GetComments {
 		JSONArray ar = new JSONArray(tok);
 		for (int i=0;i<ar.length();i++) {
 			
-			String a = ((JSONObject)ar.get(i)).get(Constants.FIELD_COMMENTED_AT_TIMESTAMP)+"";
-			String b = ((JSONObject)ar.get(i)).get(Constants.FIELD_COMMENTED_AT)+"";
+			String a = (String)ParseUtils.getJSONField(Constants.FIELD_COMMENTED_AT_TIMESTAMP, (JSONObject)ar.get(i), true);
+			String b = (String)ParseUtils.getJSONField(Constants.FIELD_COMMENTED_AT, (JSONObject)ar.get(i), true);
+
 			Date b1 = null;
 			try {
 				b1 = new SimpleDateFormat(Constants.DATE_FORMAT).parse(b);
 			} catch (ParseException e) {
 				throw new OpenAntragException("Couldn't parse date '"+b+"' this comment.",e);
 			}
-			String c = ((JSONObject)ar.get(i)).get(Constants.FIELD_COMMENTED_BY)+"";
-			String d = ((JSONObject)ar.get(i)).get(Constants.FIELD_COMMENT_HTML)+"";
-			String e = ((JSONObject)ar.get(i)).get(Constants.FIELD_COMMENT_TEXT)+"";
+			String c = (String)ParseUtils.getJSONField(Constants.FIELD_COMMENTED_BY, (JSONObject)ar.get(i), true);
+			String d = (String)ParseUtils.getJSONField(Constants.FIELD_COMMENT_HTML, (JSONObject)ar.get(i), true);
+			String e = (String)ParseUtils.getJSONField(Constants.FIELD_COMMENT_TEXT, (JSONObject)ar.get(i), true);
+
 			tags.add(new Comment(a, b1, c, d, e));
 		}
 		return tags;
 	}
 
 }
-

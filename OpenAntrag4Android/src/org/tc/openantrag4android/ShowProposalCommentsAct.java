@@ -4,10 +4,15 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 
 import org.tc.openantrag4J.OpenAntragException;
+import org.tc.openantrag4android.adapter.CommentEntry;
+import org.tc.openantrag4android.adapter.CommentEntryAdapter;
+import org.tc.openantrag4android.adapter.ProcessStepEntry;
+import org.tc.openantrag4android.adapter.ProcessStepEntryAdapter;
 import org.tc.openantrag4android.adapter.ProposalEntry;
 import org.tc.openantrag4android.adapter.ProposalEntryAdapter;
 import org.tc.openantrag4j.commands.GetComments;
 import org.tc.openantrag4j.proposal.Comment;
+import org.tc.openantrag4j.proposal.ProcessStep;
 import org.tc.openantrag4j.proposal.Proposal;
 
 import com.tc.openantrag4android.R;
@@ -41,7 +46,7 @@ public class ShowProposalCommentsAct extends Activity {
 					startActivity(showProposalActivity);
 				}
 			});
-			ArrayList<Comment> comments = GetComments.execute(Storage.proposal.getiD());
+			ArrayList<Comment> comments = Storage.comments;
 			
 			ArrayList<String> pElements = new ArrayList<String>();
 			for (int i=0;i<comments.size();i++) {
@@ -52,21 +57,33 @@ public class ShowProposalCommentsAct extends Activity {
 								DateFormat.getInstance().format(c.getCommmentedAt())+")");
 			}
 			
-			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-					R.layout.proposal_comments_item, pElements);
+			//ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+			//		R.layout.proposal_comments_item, pElements);
+			//ListView lView = (ListView)findViewById(R.id.listViewProposal);
+			//lView.setAdapter(dataAdapter);
+			
 			ListView lView = (ListView)findViewById(R.id.listViewProposal);
-			lView.setAdapter(dataAdapter);
+			// build comment list output		
+			ArrayList<CommentEntry> cElements = new ArrayList<CommentEntry>();
+			for (int i=0;i<comments.size();i++) {
+				Comment c = comments.get(i);
+				cElements.add(new CommentEntry(c.getCommentedBy(),
+													c.getCommentText(),
+													c.getCommentHTML(),
+													c.getCommentedAtTimestamp(),
+													c.getCommmentedAt(),
+													(Math.abs(i/2)==((double)i/2))));
+			}		
+			CommentEntryAdapter pAdapter = new CommentEntryAdapter(this, R.layout.show_comment_list_item, cElements);
+		    lView.setAdapter(pAdapter);
 					
-		} catch (OpenAntragException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (Exception e) {
-			e.printStackTrace();
-			AlertDialog alert = new AlertDialog.Builder(this).create();
-			alert.setTitle("Fehler (debug)!");
-			alert.setMessage(e.getMessage());
-			alert.setCanceledOnTouchOutside(true);
-			alert.show();
+			//cancel AsyncTask and call Error Page Activity
+			Intent intent = new Intent(ShowProposalCommentsAct.this, ErrorPageAct.class);
+			intent.putExtra("class", this.getClass());
+			intent.putExtra("exception", e);
+			startActivity(intent);
+
 		}
 	}
 	

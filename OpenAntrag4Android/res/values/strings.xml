@@ -6,9 +6,16 @@
     <string name="textHeadLine">OPENANTRAG</string>
     <string name="textFilterRepresentation">Fraktion</string>
     <string name="textFilterTag">Thema</string>
+    <string name="version">Version</string>
+    <string name="license">Lizenz</string>
+    <string name="github">GitHub</string>
     
+    <string name="exception">Exception</string>
+    <string name="cause">Ursache</string>
+    <string name="errText">Fehlertext</string>
+    <string name="section">Fehlerquelle</string>
     
-    
+    <string name="menuItemInfo">Info</string>
     <string name="searchButton">Anträge suchen</string>
     <string name="backButton1">zurück</string>
     <string name="showProposalHeadline">Headline</string>

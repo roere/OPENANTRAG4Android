@@ -63,33 +63,22 @@ public class ShowProposalAct extends Activity {
 				}
 			});
 		} catch (Exception e) {
+			/*
 			e.printStackTrace();
 			AlertDialog alert = new AlertDialog.Builder(this).create();
 			alert.setTitle("Fehler (debug)!");
 			alert.setMessage(e.getClass()+" - "+e.getMessage());
 			alert.setCanceledOnTouchOutside(true);
 			alert.show();
+			*/
+			//call Error Page Activity
+			Intent intent = new Intent(ShowProposalAct.this, ErrorPageAct.class);
+			intent.putExtra("class", this.getClass());
+			intent.putExtra("exception", e);
+			startActivity(intent);
+
 		}
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		
-		//getMenuInflater().inflate(R.menu.proposal_menu, menu);
-		
-		return true;
-	}
-	
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
 	
 	/**
 	 * 
@@ -158,10 +147,6 @@ public class ShowProposalAct extends Activity {
 	        	try {
 	    			ArrayList<Comment> cList = GetComments.execute(Storage.proposal.getiD());
 	    			Storage.comments = cList;
-	    		} catch (OpenAntragException e) {
-	    			e.printStackTrace();
-	    		}
-	       		try {
 	    			ArrayList<Representative> repList = GetRepresentatives.execute(Storage.proposal.getKeyRepresentation());
 	    			for (int i=0; i<repList.size();i++) {
 	    				if (repList.get(i).getKey().equals(Storage.proposal.getKeyRepresentative())) {
@@ -169,8 +154,14 @@ public class ShowProposalAct extends Activity {
 	    					break;
 	    				}
 	    			}    			
-	    		} catch (OpenAntragException e1) {
-	    			e1.printStackTrace();
+	    		} catch (Exception e1) {
+	    			//e1.printStackTrace();
+	    			//cancel AsyncTask and call Error Page Activity
+					this.cancel(true);
+	    			Intent intent = new Intent(ShowProposalAct.this, ErrorPageAct.class);
+	    			intent.putExtra("class", this.getClass());
+	    			intent.putExtra("exception", e1);
+	    			startActivity(intent);
 	    		} 
 			}
             return null;

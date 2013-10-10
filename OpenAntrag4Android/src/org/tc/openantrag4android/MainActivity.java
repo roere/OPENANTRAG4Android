@@ -1,5 +1,6 @@
 package org.tc.openantrag4android;
 
+import java.net.URLEncoder;
 import java.util.*;
 
 import org.tc.openantrag4J.OpenAntragException;
@@ -21,6 +22,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -38,8 +40,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) { 
 		try {
 			super.onCreate(savedInstanceState);
-			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-			StrictMode.setThreadPolicy(policy); 
+			//StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			//StrictMode.setThreadPolicy(policy); 
 			
 			//reload on first call or after a defined period of time.
 			forceReload = getIntent().getBooleanExtra(Constants.FORCE_RELOAD, true)||
@@ -76,15 +78,15 @@ public class MainActivity extends Activity {
 			    		if (rep.equals(Constants.ALL_IDENTIFIER)) {
 			    			ArrayAdapter<String> adapter = (ArrayAdapter<String>)lView.getAdapter();
 			    			adapter.remove(Constants.ALL_IDENTIFIER);
-			    			Storage.representationList.remove(0);
+			    			//Storage.representationList.remove(0);
 			    		}
 					} else {
 						if (!rep.equals(Constants.ALL_IDENTIFIER)) {
 			    			ArrayAdapter<String> adapter = (ArrayAdapter<String>)lView.getAdapter();
 			    			adapter.insert(Constants.ALL_IDENTIFIER, 0);
-			    			Storage.representationList.add(0, 
-			    					new Representation(org.tc.openantrag4J.Constants.COMMAND_KEY_ALL_REPRESENTATION,
-			    										org.tc.openantrag4J.Constants.COMMAND_KEY_ALL_REPRESENTATION));
+			    			//Storage.representationList.add(0, 
+			    			//		new Representation(org.tc.openantrag4J.Constants.COMMAND_KEY_ALL_REPRESENTATION,
+			    			//							org.tc.openantrag4J.Constants.COMMAND_KEY_ALL_REPRESENTATION));
 			    		}
 					}
 				}
@@ -96,12 +98,19 @@ public class MainActivity extends Activity {
 			
 			new RemotePreDataTask().execute();
 		} catch (Exception e) {
+			/*
 			e.printStackTrace();
 			AlertDialog alert = new AlertDialog.Builder(this).create();
 			alert.setTitle("Fehler (debug)!");
 			alert.setMessage(e.getClass()+" - "+e.getMessage());
 			alert.setCanceledOnTouchOutside(true);
 			alert.show();
+			*/
+			//call Error Page Activity
+			Intent intent = new Intent(MainActivity.this, ErrorPageAct.class);
+			intent.putExtra("class", this.getClass());
+			intent.putExtra("exception", e);
+			startActivity(intent);
 		}
 	}	
 
@@ -109,8 +118,21 @@ public class MainActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	    case R.id.menuItemInfo: //start Intent and open info page
+			Intent intent = new Intent(this, ShowInfoAct.class);
+			intent.putExtra("class", this.getClass());
+			startActivity(intent);
+	        return true;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
 	}
 		
 	/**
@@ -154,8 +176,13 @@ public class MainActivity extends Activity {
 	    			tList = GetTags.execute();
 	    			tList.add(0, Constants.ALL_IDENTIFIER);
 	    			Storage.tagList = tList;
-	    		} catch (OpenAntragException e) {
-	    			e.printStackTrace();
+	    		} catch (Exception e) {
+	    			//cancel AsyncTask and call Error Page Activity
+	    			this.cancel(true);
+	    			Intent intent = new Intent(MainActivity.this, ErrorPageAct.class);
+	    			intent.putExtra("class", this.getClass());
+	    			intent.putExtra("exception", e);
+	    			startActivity(intent);
 	    		}
         	}
             return null;
@@ -216,6 +243,7 @@ public class MainActivity extends Activity {
  
         @Override
         protected void onPostExecute(Void result) {
+        	ArrayList<Integer> ing = Storage.proposalCount;
     		Spinner lView = (Spinner)findViewById(R.id.representationList);
     		
     		//check, if All_Representations is selectable (Item 0) and start updating entries starting
@@ -272,7 +300,11 @@ public class MainActivity extends Activity {
     		Spinner tSpinner = (Spinner)findViewById(R.id.tagsList);
     		
     		int itemNo = rSpinner.getSelectedItemPosition();
-    		String key = Storage.representationList.get(itemNo).getKey();
+    		String key = null;
+    		if (rSpinner.getItemAtPosition(0).equals(Constants.ALL_IDENTIFIER)) 
+    			key = org.tc.openantrag4J.Constants.COMMAND_KEY_ALL_REPRESENTATION;
+    		else
+    			key = Storage.representationList.get(itemNo).getKey();
     		String tag = (String)tSpinner.getSelectedItem();
     		ProposalSet file = null;
     		try {
@@ -288,8 +320,13 @@ public class MainActivity extends Activity {
     			}
     			Storage.proposalFile = file;
     			Storage.representationKey = key;    			
-    		} catch (OpenAntragException e) {
-    			e.printStackTrace();
+    		} catch (Exception e) {
+    			//cancel AsyncTask and call Error Page Activity
+    			this.cancel(true);
+    			Intent intent = new Intent(MainActivity.this, ErrorPageAct.class);
+    			intent.putExtra("class", this.getClass());
+    			intent.putExtra("exception", e);
+    			startActivity(intent);
     		}
             return null;
         }

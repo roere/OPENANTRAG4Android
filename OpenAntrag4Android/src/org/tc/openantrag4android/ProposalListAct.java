@@ -55,12 +55,18 @@ public class ProposalListAct extends Activity {
 			this.buildView();
 			this.buildProposalList();
 		} catch (Exception e) {
+			/*
 			e.printStackTrace();
 			AlertDialog alert = new AlertDialog.Builder(this).create();
 			alert.setTitle("Fehler (debug)!");
 			alert.setMessage(e.getClass()+" - "+e.getMessage());
 			alert.setCanceledOnTouchOutside(true);
 			alert.show();
+			*/
+			Intent intent = new Intent(ProposalListAct.this, ErrorPageAct.class);
+			intent.putExtra("class", this.getClass());
+			intent.putExtra("exception", e);
+			startActivity(intent);
 		}
 	}	
 	
@@ -108,17 +114,8 @@ public class ProposalListAct extends Activity {
                             - threshold) {
                         // Execute Task to retrieve more Data, at max every 5 seconds
                     	Integer pages = (int)Math.floor(count/Constants.PAGE_COUNT);
-                   		Integer rest = (int)Math.abs(count - (pages)*Constants.PAGE_COUNT);
-                   		Integer pTotalCount = -1;
-                   		try {
-							pTotalCount = GetCount.execute(Storage.representationKey);
-						} catch (OpenAntragException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
                     	if ((System.currentTimeMillis()-Storage.lastReloadProposalPage)>5000)
-                    		new RemoteDataTask().execute(pages, rest, count, pTotalCount);
-
+                    		new RemoteDataTask().execute(pages);
                     }
                 }
             }
@@ -164,11 +161,6 @@ public class ProposalListAct extends Activity {
 		return true;
 	}
 	
-	@Override
-	protected void onStop() {
-		super.onStop();
-	}
-	
 	/**
 	 * 
 	 * @author roere
@@ -194,9 +186,6 @@ public class ProposalListAct extends Activity {
         @Override
         protected Void doInBackground(Integer... params) {
         	Integer pages = params[0];
-//        	Integer rest = params[1];
-//        	Integer count = params[2];
-//        	Integer pTotalCount = params[3];
         	try {
         		Proposal p = GetPage.execute(Storage.representationKey, 1, 1).get(0);
 				
@@ -222,9 +211,14 @@ public class ProposalListAct extends Activity {
 															Storage.representationKey);
 				}
 				Storage.lastReloadProposalPage = System.currentTimeMillis();
-			} catch (OpenAntragException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+    			//cancel AsyncTask and call Error Page Activity
+				mProgressDialog.dismiss();
+    			this.cancel(true);
+    			Intent intent = new Intent(ProposalListAct.this, ErrorPageAct.class);
+    			intent.putExtra("class", this.getClass());
+    			intent.putExtra("exception", e);
+    			startActivity(intent);
 			}
             return null;
         }
@@ -233,7 +227,6 @@ public class ProposalListAct extends Activity {
         protected void onPostExecute(Void result) {
 			ProposalListAct.this.buildProposalList();
             mProgressDialog.dismiss();
-	
         }
     }
 

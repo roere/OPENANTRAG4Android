@@ -41,12 +41,12 @@ public class ShowProposalProcessAct extends Activity {
 			setContentView(R.layout.proposal_process);
 			this.buildView();
 		} catch (Exception e) {
-			e.printStackTrace();
-			AlertDialog alert = new AlertDialog.Builder(this).create();
-			alert.setTitle("Fehler (debug)!");
-			alert.setMessage(e.getClass()+" - "+e.getMessage());
-			alert.setCanceledOnTouchOutside(true);
-			alert.show();
+			//cancel AsyncTask and call Error Page Activity
+			Intent intent = new Intent(ShowProposalProcessAct.this, ErrorPageAct.class);
+			intent.putExtra("class", this.getClass());
+			intent.putExtra("exception", e);
+			startActivity(intent);
+
 		}
 	}
 	
@@ -62,25 +62,6 @@ public class ShowProposalProcessAct extends Activity {
 				startActivity(showProposalActivity);
 			}
 		});
-
-		/*
-		ArrayList<ProcessStep> pSteps = Storage.proposal.getProposalSteps();
-		ArrayList<String> pStepsString = new ArrayList<String>();
-		StringBuffer buf = null;
-		for (int i=0;i<pSteps.size();i++) {
-			ProcessStep step = pSteps.get(i);
-			buf = new StringBuffer();
-			buf.append(DateFormat.getDateInstance(DateFormat.FULL, Constants.LOCALE).format(step.getCreatedAt())+"\r\n");
-			buf.append(step.getCaption()+"\r\n");
-			buf.append(step.getInfoText()+"\r\n");
-			pStepsString.add(buf.toString());
-		}
-				
-		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-				R.layout.proposal_comments_item, pStepsString);
-		ListView lView = (ListView)findViewById(R.id.listProposalProcess);
-		lView.setAdapter(dataAdapter);
-		*/
 		
 		TextView headLine = (TextView)findViewById(R.id.proposalText);
 		headLine.setText(Storage.proposal.getTitleText());
@@ -96,11 +77,9 @@ public class ShowProposalProcessAct extends Activity {
 												p.getCreatedAt(),
 												p.getColor(),
 												(Math.abs(i/2)==((double)i/2))));
-		}
-		
+		}		
 		ProcessStepEntryAdapter pAdapter = new ProcessStepEntryAdapter(this, R.layout.show_processstep_list_item, cElements);
 	    lView.setAdapter(pAdapter);
-		
 	}
 	
 	/**
@@ -123,15 +102,5 @@ public class ShowProposalProcessAct extends Activity {
 		ProcessStepEntryAdapter pAdapter = new ProcessStepEntryAdapter(this, R.layout.show_processstep_list_item, cElements);
 	    lView.setAdapter(pAdapter);		
 	}
-
-	
-	@Override
-	protected void onStop() {
-		super.onStop();
-		//Intent mainActivity = new Intent(ShowProposalProcessAct.this, MainActivity.class);
-		//startActivity(mainActivity);
-		
-	}
-
 
 }

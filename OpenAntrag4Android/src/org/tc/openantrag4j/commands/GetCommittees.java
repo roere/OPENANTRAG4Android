@@ -16,6 +16,7 @@ import org.tc.openantrag4J.Constants;
 import org.tc.openantrag4J.OpenAntragException;
 import org.tc.openantrag4J.Utils;
 import org.tc.openantrag4J.representation.Committee;
+import org.tc.openantrag4J.representation.CommitteeSet;
 
 /**
  * @author roere
@@ -31,7 +32,7 @@ public abstract class GetCommittees {
 	 * @return
 	 * @throws OpenAntragException
 	 */
-	public static ArrayList<Committee> execute(String representationKey) throws OpenAntragException {
+	public static CommitteeSet execute(String representationKey) throws OpenAntragException {
 		return GetCommittees.execute(representationKey, true);
 	}
 	
@@ -42,9 +43,9 @@ public abstract class GetCommittees {
 	 * @return
 	 * @throws OpenAntragException
 	 */
-	public static ArrayList<Committee> execute(String representationKey,
+	public static CommitteeSet execute(String representationKey,
 												boolean ignoreMalFormedURLs) throws OpenAntragException {
-		ArrayList<Committee> result = new ArrayList<Committee>();
+		CommitteeSet result = new CommitteeSet();
 		String u = Utils.getURL(Constants.COMMAND_GET_COMMITTEES, representationKey);
 		URL url; 
 		try {

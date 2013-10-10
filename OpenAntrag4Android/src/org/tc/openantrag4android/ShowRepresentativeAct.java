@@ -36,12 +36,12 @@ public class ShowRepresentativeAct extends Activity {
 				}
 			});
 		} catch (Exception e) {
-			e.printStackTrace();
-			AlertDialog alert = new AlertDialog.Builder(this).create();
-			alert.setTitle("Fehler (debug)!");
-			alert.setMessage(e.getClass()+" - "+e.getMessage());
-			alert.setCanceledOnTouchOutside(true);
-			alert.show();
+			//cancel AsyncTask and call Error Page Activity
+			Intent intent = new Intent(ShowRepresentativeAct.this, ErrorPageAct.class);
+			intent.putExtra("class", this.getClass());
+			intent.putExtra("exception", e);
+			startActivity(intent);
+
 		}
 	}
 	

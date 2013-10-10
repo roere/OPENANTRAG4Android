@@ -1,9 +1,22 @@
 package org.tc.openantrag4J;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+
 public abstract class Utils {
 
-	public static String getBaseURL() {
-		return Constants.PROTOCOL+"://"+Constants.BASE_URL;
+	public static String getBaseURL() {		
+		try {
+			URI uri = new URI(Constants.PROTOCOL,
+							Constants.BASE_URL,
+							null,
+							null);
+			return uri.toString();
+		} catch (URISyntaxException e) {
+			return null;
+		}		
 	}	
 	
 	/**
@@ -12,7 +25,6 @@ public abstract class Utils {
 	 * @return
 	 */
 	public static String getURL(String command) {
-		//return Constants.PROTOCOL+"://"+Constants.BASE_URL+"/"+Constants.API_URL+"/"+command;
 		return Utils.getURL(command, "");
 	}	
 	
@@ -23,7 +35,15 @@ public abstract class Utils {
 	 * @return
 	 */
 	public static String getURL(String command, String key) {
-		return Utils.getBaseURL()+"/"+Constants.API_URL+"/"+command+"/"+key;
+		try {
+			URI uri = new URI(Constants.PROTOCOL,
+							Constants.BASE_URL,
+							"/"+Constants.API_URL+"/"+command+"/"+key,
+							null);
+			return uri.toString();
+		} catch (URISyntaxException e) {
+			return null;
+		}
 	}
 	
 	/**
@@ -33,11 +53,15 @@ public abstract class Utils {
 	 * @return
 	 */
 	public static String getProposalURL (String command, String key) {
-		return Utils.getBaseURL()+"/"+
-				Constants.API_URL+"/"+
-				Constants.PROPOSAL_URL+"/"+
-				key+"/"+
-				command;		
+		try {
+			URI uri = new URI(Constants.PROTOCOL,
+							Constants.BASE_URL,
+							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key+"/"+command,
+							null);
+			return uri.toString();
+		} catch (URISyntaxException e) {
+			return null;
+		}
 	}
 	
 	
@@ -50,12 +74,15 @@ public abstract class Utils {
 	 * @return
 	 */
 	public static String getURL(String command, String representationKey, String tag) {
-		return Utils.getBaseURL()+"/"+
-					Constants.API_URL+"/"+
-					Constants.PROPOSAL_URL+"/"+
-					representationKey+"/"+
-					command+"/"+
-					tag;
+		try {
+			URI uri = new URI(Constants.PROTOCOL,
+							Constants.BASE_URL,
+							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+representationKey+"/"+command+"/"+tag,
+							null);
+			return uri.toString();
+		} catch (URISyntaxException e) {
+			return null;
+		}
 	}
 		
 	/**
@@ -64,24 +91,34 @@ public abstract class Utils {
 	 * @return
 	 */
 	private static String getKeyURL (String key) {
-		return Utils.getBaseURL()+"/"+
-				Constants.API_URL+"/"+
-				Constants.PROPOSAL_URL+
-				"/"+key;
+		try {
+			URI uri = new URI(Constants.PROTOCOL,
+							Constants.BASE_URL,
+							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key,
+							null);
+			return uri.toString();
+		} catch (URISyntaxException e) {
+			return null;
+		}
 	}
 	
 	/**
 	 * 
 	 * @param page
-	 * @param PAGE_COUNT
+	 * @param pageCount
 	 * @param key
 	 * @return
 	 */
 	public static String getPageURL(int page, int pageCount, String key) {
-		return Utils.getKeyURL(key)+
-				"/"+
-				Constants.COMMAND_GET_PAGE+"/"+
-				page+"/"+pageCount;
+		try {
+			URI uri = new URI(Constants.PROTOCOL,
+							Constants.BASE_URL,
+							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key+"/"+Constants.COMMAND_GET_PAGE+"/"+page+"/"+pageCount,
+							null);
+			return uri.toString();
+		} catch (URISyntaxException e) {
+			return null;
+		}
 	}
 	
 	/**
@@ -91,10 +128,15 @@ public abstract class Utils {
 	 * @return
 	 */
 	public static String getTop (int count, String representationID) {
-		return Utils.getKeyURL(representationID)+
-				"/"+
-				Constants.COMMAND_GET_TOP+"/"+
-				count;
+		try {
+			URI uri = new URI(Constants.PROTOCOL,
+							Constants.BASE_URL,
+							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+representationID+"/"+Constants.COMMAND_GET_TOP+"/"+count,
+							null);
+			return uri.toString();
+		} catch (URISyntaxException e) {
+			return null;
+		}
 	}
 		
 	/**
@@ -103,16 +145,21 @@ public abstract class Utils {
 	 * @return
 	 */
 	public static String getCommentsURL (String proposalID) {
-		return Utils.getBaseURL()+"/"+
-				Constants.API_URL+"/"+
-				Constants.COMMAND_GET_COMMENTS+
-				"/"+proposalID;
+		try {
+			URI uri = new URI(Constants.PROTOCOL,
+							Constants.BASE_URL,
+							"/"+Constants.API_URL+"/"+Constants.COMMAND_GET_COMMENTS+"/"+proposalID,
+							null);
+			return uri.toString();
+		} catch (URISyntaxException e) {
+			return null;
+		}
 	}
 	
 	/**
 	 * 
 	 * @param page
-	 * @param PAGE_COUNT
+	 * @param pageCount
 	 * @return
 	 */
 	public static String getPageURL(int page, int pageCount) {
