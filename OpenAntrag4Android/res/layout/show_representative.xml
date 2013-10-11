@@ -11,31 +11,31 @@
         android:layout_alignParentLeft="true"
         android:background="@color/black" >
     
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/backChar"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/lightGrey" />
-
         <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/open_antrag" />
-
-        <TextView
-            android:id="@+id/textHeadline"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:text="@string/showProposal"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/lightGrey" />
+	        android:id="@+id/imageView2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_centerVertical="true"
+	        android:src="@drawable/oa_left" />
+    	
+    	<ImageView
+	        android:id="@+id/imageView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_centerVertical="true"
+	        android:src="@drawable/open_antrag" />
+	    
+	    <TextView
+	        android:id="@+id/textHeadline"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_centerVertical="true"
+	        android:text="@string/setFilter"
+   	        android:textColor ="@color/lightGrey"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </LinearLayout>
    	<TextView
