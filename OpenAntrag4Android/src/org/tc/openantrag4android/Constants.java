@@ -4,7 +4,7 @@ import java.util.Locale;
 
 public abstract class Constants {
 	
-	public static String VERSION = "0.975";
+	public static String VERSION = "0.9751";
 	public static String LICENCE = "GPL Version 3";
 	
 	public static String APP_NAME = "OPENANTRAG4Android";
