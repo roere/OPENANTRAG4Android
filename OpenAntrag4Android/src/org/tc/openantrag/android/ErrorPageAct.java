@@ -1,8 +1,8 @@
-package org.tc.openantrag4android;
+package org.tc.openantrag.android;
 
 import org.tc.openantrag4J.OpenAntragException;
 
-import com.tc.openantrag4android.R;
+import com.tc.openantrag.android.R;
 
 import android.app.Activity;
 import android.content.Intent;

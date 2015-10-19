@@ -1,22 +1,22 @@
-package org.tc.openantrag4android;
+package org.tc.openantrag.android;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import org.tc.openantrag.android.adapter.ProcessStepEntry;
+import org.tc.openantrag.android.adapter.ProcessStepEntryAdapter;
+import org.tc.openantrag.android.adapter.ProposalEntry;
+import org.tc.openantrag.android.adapter.ProposalEntryAdapter;
 import org.tc.openantrag4J.OpenAntragException;
 import org.tc.openantrag4J.representation.RepresentationSet;
-import org.tc.openantrag4android.adapter.ProcessStepEntry;
-import org.tc.openantrag4android.adapter.ProcessStepEntryAdapter;
-import org.tc.openantrag4android.adapter.ProposalEntry;
-import org.tc.openantrag4android.adapter.ProposalEntryAdapter;
 import org.tc.openantrag4j.commands.GetComments;
 import org.tc.openantrag4j.proposal.Comment;
 import org.tc.openantrag4j.proposal.Proposal;
 import org.tc.openantrag4j.proposal.ProcessStep;
 
-import com.tc.openantrag4android.R;
+import com.tc.openantrag.android.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;

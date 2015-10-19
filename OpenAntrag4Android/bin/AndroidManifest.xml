@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tc.openantrag4android"
+    package="com.tc.openantrag.android"
     android:versionCode="2"
     android:versionName="1.01" >
 
@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="org.tc.openantrag4android.MainActivity"
+            android:name="org.tc.openantrag.android.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,37 +25,37 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.tc.openantrag4android.ShowProposalAct"
+            android:name="org.tc.openantrag.android.ShowProposalAct"
             android:label="@string/app_name" >
             <intent-filter>
                 
             </intent-filter>
         </activity>
         <activity
-            android:name="org.tc.openantrag4android.ProposalListAct"
+            android:name="org.tc.openantrag.android.ProposalListAct"
             android:label="@string/app_name" >
             <intent-filter>
                 
             </intent-filter>
         </activity>
         <activity
-            android:name="org.tc.openantrag4android.ShowProposalProcessAct"
+            android:name="org.tc.openantrag.android.ShowProposalProcessAct"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="org.tc.openantrag4android.ShowProposalCommentsAct"
+            android:name="org.tc.openantrag.android.ShowProposalCommentsAct"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="org.tc.openantrag4android.ShowRepresentativeAct"
+            android:name="org.tc.openantrag.android.ShowRepresentativeAct"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="org.tc.openantrag4android.ShowInfoAct"
+            android:name="org.tc.openantrag.android.ShowInfoAct"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="org.tc.openantrag4android.ErrorPageAct"
+            android:name="org.tc.openantrag.android.ErrorPageAct"
             android:label="@string/app_name" >
         </activity>
  

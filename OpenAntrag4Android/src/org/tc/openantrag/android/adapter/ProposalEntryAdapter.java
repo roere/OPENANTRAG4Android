@@ -1,10 +1,10 @@
-package org.tc.openantrag4android.adapter;
+package org.tc.openantrag.android.adapter;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import org.tc.openantrag4android.Constants;
+import org.tc.openantrag.android.Constants;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,8 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tc.openantrag4android.R;
-import com.tc.openantrag4android.R.id;
+import com.tc.openantrag.android.R;
+import com.tc.openantrag.android.R.id;
 
 public class ProposalEntryAdapter extends ArrayAdapter<ProposalEntry>{
 

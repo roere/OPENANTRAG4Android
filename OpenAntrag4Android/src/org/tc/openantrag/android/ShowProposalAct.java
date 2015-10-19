@@ -1,4 +1,4 @@
-package org.tc.openantrag4android;
+package org.tc.openantrag.android;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import org.tc.openantrag4j.proposal.Comment;
 import org.tc.openantrag4j.proposal.Proposal;
 import org.tc.openantrag4j.proposal.ProposalSet;
 
-import com.tc.openantrag4android.R;
+import com.tc.openantrag.android.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;

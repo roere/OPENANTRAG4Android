@@ -1,4 +1,4 @@
-package org.tc.openantrag4android;
+package org.tc.openantrag.android;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
