@@ -57,7 +57,7 @@ public abstract class GetComments {
 			}
 			String c = (String)ParseUtils.getJSONField(Constants.FIELD_COMMENTED_BY, (JSONObject)ar.get(i), true);
 			String d = (String)ParseUtils.getJSONField(Constants.FIELD_COMMENT_HTML, (JSONObject)ar.get(i), true);
-			String e = (String)ParseUtils.getJSONField(Constants.FIELD_COMMENT_TEXT, (JSONObject)ar.get(i), true);
+			String e = (String)ParseUtils.getJSONField(Constants.FIELD_COMMENT_RAW, (JSONObject)ar.get(i), true);
 
 			tags.add(new Comment(a, b1, c, d, e));
 		}

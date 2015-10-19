@@ -95,6 +95,10 @@ public class ProposalListAct extends Activity {
 				showProposal.putExtra(Constants.SELECTED_ITEM, (int)arg3);
 				showProposal.putExtra(Constants.FORCE_RELOAD, true);
 				Storage.proposal = Storage.proposalFile.get((int)arg3);
+				
+				//make some Storage cleanup ...
+				//TODO maybe more cleanup necessary
+				Storage.representative = null;
 				startActivity(showProposal);
 				
 			}

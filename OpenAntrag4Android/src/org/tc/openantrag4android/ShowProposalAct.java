@@ -94,7 +94,8 @@ public class ShowProposalAct extends Activity {
 		TextView proposalStepText = (TextView)findViewById(R.id.proposalStepText);
 		
 		headline.setText(proposal.getTitleText());
-		body.setText(proposal.getTextMarkDown());
+		//body.setText(proposal.getTextMarkDown());
+		body.setText(proposal.getTextRaw());
 		
 		StringBuffer sb = new StringBuffer();
 		for (int i=0;i<proposal.getTags().size();i++) {

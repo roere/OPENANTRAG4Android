@@ -89,7 +89,7 @@ public abstract class Constants {
 	public static final String FIELD_COMMENTED_AT = "CommentedAt";
 	public static final String FIELD_COMMENTED_BY = "CommentedBy";
 	public static final String FIELD_COMMENT_HTML = "CommentHtml";
-	public static final String FIELD_COMMENT_TEXT = "CommentText";
+	public static final String FIELD_COMMENT_RAW = "CommentRaw";
 	
 	public static final String FIELD_REPRESENTATIVE_KEY = "Key";
 	public static final String FIELD_REPRESENTATIVE_NAME = "Name";

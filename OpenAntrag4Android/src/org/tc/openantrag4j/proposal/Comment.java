@@ -8,18 +8,18 @@ public class Comment {
 	private Date commmentedAt = null;
 	private String commentedBy = "";
 	private String commentHTML = "";
-	private String commentText = "";
+	private String commentRaw = "";
 	
 	public Comment(String commentedAtTimestamp, 
 					Date commentedAt,
 					String commentedBy,
 					String commentHTML,
-					String commentText) {
+					String commentRaw) {
 		this.commentedAtTimestamp = commentedAtTimestamp;
 		this.commmentedAt = commentedAt;
 		this.commentedBy = commentedBy;
 		this.commentHTML = commentHTML;
-		this.commentText = commentText;
+		this.commentRaw = commentRaw;
 	}
 
 	/**
@@ -79,17 +79,17 @@ public class Comment {
 	}
 
 	/**
-	 * @return the commentText
+	 * @return the commentRaw
 	 */
-	public String getCommentText() {
-		return commentText;
+	public String getCommentRaw() {
+		return commentRaw;
 	}
 
 	/**
-	 * @param commentText the commentText to set
+	 * @param commentRaw the commentRaw to set
 	 */
-	public void setCommentText(String commentText) {
-		this.commentText = commentText;
+	public void setCommentRaw(String commentRaw) {
+		this.commentRaw = commentRaw;
 	}
 	
 	

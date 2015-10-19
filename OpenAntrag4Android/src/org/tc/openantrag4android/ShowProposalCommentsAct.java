@@ -48,6 +48,7 @@ public class ShowProposalCommentsAct extends Activity {
 			});
 			ArrayList<Comment> comments = Storage.comments;
 			
+			/*
 			ArrayList<String> pElements = new ArrayList<String>();
 			for (int i=0;i<comments.size();i++) {
 				Comment c = comments.get(i);
@@ -56,6 +57,7 @@ public class ShowProposalCommentsAct extends Activity {
 								c.getCommentedBy()+", "+
 								DateFormat.getInstance().format(c.getCommmentedAt())+")");
 			}
+			*/
 			
 			//ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 			//		R.layout.proposal_comments_item, pElements);
@@ -68,7 +70,7 @@ public class ShowProposalCommentsAct extends Activity {
 			for (int i=0;i<comments.size();i++) {
 				Comment c = comments.get(i);
 				cElements.add(new CommentEntry(c.getCommentedBy(),
-													c.getCommentText(),
+													c.getCommentRaw(),
 													c.getCommentHTML(),
 													c.getCommentedAtTimestamp(),
 													c.getCommmentedAt(),

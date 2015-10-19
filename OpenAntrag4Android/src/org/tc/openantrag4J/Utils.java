@@ -1,6 +1,7 @@
 package org.tc.openantrag4J;
 
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -13,8 +14,10 @@ public abstract class Utils {
 							Constants.BASE_URL,
 							null,
 							null);
-			return uri.toString();
+			return uri.toURL()+"";
 		} catch (URISyntaxException e) {
+			return null;
+		} catch (MalformedURLException e) {
 			return null;
 		}		
 	}	
@@ -38,11 +41,15 @@ public abstract class Utils {
 		try {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
-							"/"+Constants.API_URL+"/"+command+"/"+key+
-							Constants.RESULTFORMAT_SUFFIX,
+							"/"+Constants.API_URL+"/"+command+"/"+key
+							,//+Constants.RESULTFORMAT_SUFFIX,
 							null);
-			return uri.toString();
+			//return uri.toString();
+			//return (uri.getHost()+uri.getPath())+Constants.RESULTFORMAT_SUFFIX;
+			return uri.toURL()+Constants.RESULTFORMAT_SUFFIX;
 		} catch (URISyntaxException e) {
+			return null;
+		} catch (MalformedURLException e) {
 			return null;
 		}
 	}
@@ -57,11 +64,15 @@ public abstract class Utils {
 		try {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
-							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key+"/"+command+
-							Constants.RESULTFORMAT_SUFFIX,
+							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key+"/"+command
+							,//+Constants.RESULTFORMAT_SUFFIX,
 							null);
-			return uri.toString();
+			//return uri.toString();
+			//return (uri.getHost()+uri.getPath())+Constants.RESULTFORMAT_SUFFIX;
+			return uri.toURL()+Constants.RESULTFORMAT_SUFFIX;
 		} catch (URISyntaxException e) {
+			return null;
+		} catch (MalformedURLException e) {
 			return null;
 		}
 	}
@@ -80,11 +91,15 @@ public abstract class Utils {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
 							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+
-							representationKey+"/"+command+"/"+tag+
-							Constants.RESULTFORMAT_SUFFIX,
+							representationKey+"/"+command+"/"+tag
+							,//+Constants.RESULTFORMAT_SUFFIX,
 							null);
-			return uri.toString();
+			//return uri.toString();
+			//return (uri.getHost()+uri.getPath())+Constants.RESULTFORMAT_SUFFIX;
+			return uri.toURL()+Constants.RESULTFORMAT_SUFFIX;
 		} catch (URISyntaxException e) {
+			return null;
+		} catch (MalformedURLException e) {
 			return null;
 		}
 	}
@@ -98,11 +113,15 @@ public abstract class Utils {
 		try {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
-							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key+
-							Constants.RESULTFORMAT_SUFFIX,
+							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key
+							,//+Constants.RESULTFORMAT_SUFFIX,
 							null);
-			return uri.toString();
+			//return uri.toString();
+			//return (uri.getHost()+uri.getPath())+Constants.RESULTFORMAT_SUFFIX;
+			return uri.toURL()+Constants.RESULTFORMAT_SUFFIX;
 		} catch (URISyntaxException e) {
+			return null;
+		} catch (MalformedURLException e) {
 			return null;
 		}
 	}
@@ -119,11 +138,15 @@ public abstract class Utils {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
 							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key+"/"+
-							Constants.COMMAND_GET_PAGE+"/"+page+"/"+pageCount+
-							Constants.RESULTFORMAT_SUFFIX,
+							Constants.COMMAND_GET_PAGE+"/"+page+"/"+pageCount
+							,//+Constants.RESULTFORMAT_SUFFIX,
 							null);
-			return uri.toString();
+			//return uri.toString();
+			//return (uri.getHost()+uri.getPath())+Constants.RESULTFORMAT_SUFFIX;
+			return uri.toURL()+Constants.RESULTFORMAT_SUFFIX;
 		} catch (URISyntaxException e) {
+			return null;
+		} catch (MalformedURLException e) {
 			return null;
 		}
 	}
@@ -139,11 +162,15 @@ public abstract class Utils {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
 							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+
-							representationID+"/"+Constants.COMMAND_GET_TOP+"/"+count+
-							Constants.RESULTFORMAT_SUFFIX,
+							representationID+"/"+Constants.COMMAND_GET_TOP+"/"+count
+							,//+Constants.RESULTFORMAT_SUFFIX,
 							null);
-			return uri.toString();
+			//return uri.toString();
+			//return (uri.getHost()+uri.getPath())+Constants.RESULTFORMAT_SUFFIX;
+			return uri.toURL()+Constants.RESULTFORMAT_SUFFIX;
 		} catch (URISyntaxException e) {
+			return null;
+		} catch (MalformedURLException e) {
 			return null;
 		}
 	}
@@ -157,11 +184,15 @@ public abstract class Utils {
 		try {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
-							"/"+Constants.API_URL+"/"+Constants.COMMAND_GET_COMMENTS+"/"+proposalID+
-							Constants.RESULTFORMAT_SUFFIX,
+							"/"+Constants.API_URL+"/"+Constants.COMMAND_GET_COMMENTS+"/"+proposalID
+							,//+Constants.RESULTFORMAT_SUFFIX,
 							null);
-			return uri.toString();
+			//return uri.toString();
+			//return (uri.getHost()+uri.getPath())+Constants.RESULTFORMAT_SUFFIX;
+			return uri.toURL()+Constants.RESULTFORMAT_SUFFIX;
 		} catch (URISyntaxException e) {
+			return null;
+		} catch (MalformedURLException e) {
 			return null;
 		}
 	}
