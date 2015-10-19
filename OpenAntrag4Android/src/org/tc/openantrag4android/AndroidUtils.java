@@ -1,5 +1,10 @@
 package org.tc.openantrag4android;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public abstract class AndroidUtils {
 
 	public static String null2Empty (String a) {
@@ -18,10 +23,47 @@ public abstract class AndroidUtils {
 										String representative,
 										String committee) {
 		if (representative!=null) 
-			str.replace(Constants.VAR_REPRESENTATIVE, representative);
+			str = str.replace(Constants.VAR_REPRESENTATIVE, representative);
 		if (committee!=null) 
-			str.replace(Constants.VAR_COMMITTEE, committee);
+			str = str.replace(Constants.VAR_COMMITTEE, committee);
 		return str;
+	}
+	
+	/**
+	 * Tries to open an inputStream using TEST_URL.
+	 * Assumes that Internet is available in case that works and returns true hence.
+	 * @return
+	 */
+	public static boolean hasInternetAccess() {
+		return hasAccess(Constants.TEST_URL);
+	}
+	
+	/**
+	 * Tries to open an inputStream using BASE_URL.
+	 * Assumes that Server is available in case that works and returns true hence.
+	 * @return
+	 */
+	public static boolean hasServerAccess() {
+		return hasAccess(org.tc.openantrag4J.Constants.BASE_URL);
+	}
+	
+	/**
+	 * 
+	 * @param host
+	 * @return
+	 */
+	private static boolean hasAccess(String host) {
+		try {
+			URI testURI = new URI ("http",host,null,null);
+			testURI.toURL().openStream();
+			return true;
+		} catch (MalformedURLException e) {
+			return false;
+		} catch (IOException e) {
+			return false;
+		} catch (URISyntaxException e) {
+			return false;
+		}
 	}
 
 }

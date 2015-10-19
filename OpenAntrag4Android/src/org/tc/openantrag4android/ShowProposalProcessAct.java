@@ -65,14 +65,15 @@ public class ShowProposalProcessAct extends Activity {
 		
 		TextView headLine = (TextView)findViewById(R.id.proposalText);
 		headLine.setText(Storage.proposal.getTitleText());
-		
 		ListView lView = (ListView)findViewById(R.id.listProposalProcess);
 		// build comment list output		
 		ArrayList<ProcessStepEntry> cElements = new ArrayList<ProcessStepEntry>();
 		ArrayList<ProcessStep> pSteps = Storage.proposal.getProposalSteps();
 		for (int i=0;i<pSteps.size();i++) {
 			ProcessStep p = pSteps.get(i);
-			cElements.add(new ProcessStepEntry(p.getCaption(),
+			cElements.add(new ProcessStepEntry(AndroidUtils.setVariables(p.getCaption(), 
+																			(Storage.representative!=null)?Storage.representative.getName():null, 
+																			(Storage.committees!=null)?Storage.committees.getNameByID(Storage.proposal.getKeyCommittee()):null),
 												p.getInfoText(),
 												p.getCreatedAt(),
 												p.getColor(),
@@ -82,25 +83,4 @@ public class ShowProposalProcessAct extends Activity {
 	    lView.setAdapter(pAdapter);
 	}
 	
-	/**
-	 * Build List of Comment Entries
-	 */
-	private void buildProcessList() {
-		final ListView lView = (ListView)findViewById(R.id.listProposalProcess);
-		// build comment list output		
-		ArrayList<ProcessStepEntry> cElements = new ArrayList<ProcessStepEntry>();
-		ArrayList<ProcessStep> pSteps = Storage.proposal.getProposalSteps();
-		for (int i=0;i<pSteps.size();i++) {
-			ProcessStep p = pSteps.get(i);
-			cElements.add(new ProcessStepEntry(p.getCaption(),
-												p.getInfoText(),
-												p.getCreatedAt(),
-												p.getColor(),
-												(Math.abs(i/2)==((double)i/2))));
-		}
-		
-		ProcessStepEntryAdapter pAdapter = new ProcessStepEntryAdapter(this, R.layout.show_processstep_list_item, cElements);
-	    lView.setAdapter(pAdapter);		
-	}
-
 }

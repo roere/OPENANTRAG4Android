@@ -38,7 +38,8 @@ public abstract class Utils {
 		try {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
-							"/"+Constants.API_URL+"/"+command+"/"+key,
+							"/"+Constants.API_URL+"/"+command+"/"+key+
+							Constants.RESULTFORMAT_SUFFIX,
 							null);
 			return uri.toString();
 		} catch (URISyntaxException e) {
@@ -56,7 +57,8 @@ public abstract class Utils {
 		try {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
-							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key+"/"+command,
+							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key+"/"+command+
+							Constants.RESULTFORMAT_SUFFIX,
 							null);
 			return uri.toString();
 		} catch (URISyntaxException e) {
@@ -77,7 +79,9 @@ public abstract class Utils {
 		try {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
-							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+representationKey+"/"+command+"/"+tag,
+							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+
+							representationKey+"/"+command+"/"+tag+
+							Constants.RESULTFORMAT_SUFFIX,
 							null);
 			return uri.toString();
 		} catch (URISyntaxException e) {
@@ -94,7 +98,8 @@ public abstract class Utils {
 		try {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
-							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key,
+							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key+
+							Constants.RESULTFORMAT_SUFFIX,
 							null);
 			return uri.toString();
 		} catch (URISyntaxException e) {
@@ -113,7 +118,9 @@ public abstract class Utils {
 		try {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
-							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key+"/"+Constants.COMMAND_GET_PAGE+"/"+page+"/"+pageCount,
+							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+key+"/"+
+							Constants.COMMAND_GET_PAGE+"/"+page+"/"+pageCount+
+							Constants.RESULTFORMAT_SUFFIX,
 							null);
 			return uri.toString();
 		} catch (URISyntaxException e) {
@@ -131,7 +138,9 @@ public abstract class Utils {
 		try {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
-							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+representationID+"/"+Constants.COMMAND_GET_TOP+"/"+count,
+							"/"+Constants.API_URL+"/"+Constants.PROPOSAL_URL+"/"+
+							representationID+"/"+Constants.COMMAND_GET_TOP+"/"+count+
+							Constants.RESULTFORMAT_SUFFIX,
 							null);
 			return uri.toString();
 		} catch (URISyntaxException e) {
@@ -148,7 +157,8 @@ public abstract class Utils {
 		try {
 			URI uri = new URI(Constants.PROTOCOL,
 							Constants.BASE_URL,
-							"/"+Constants.API_URL+"/"+Constants.COMMAND_GET_COMMENTS+"/"+proposalID,
+							"/"+Constants.API_URL+"/"+Constants.COMMAND_GET_COMMENTS+"/"+proposalID+
+							Constants.RESULTFORMAT_SUFFIX,
 							null);
 			return uri.toString();
 		} catch (URISyntaxException e) {

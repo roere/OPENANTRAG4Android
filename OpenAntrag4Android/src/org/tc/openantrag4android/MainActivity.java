@@ -226,7 +226,7 @@ public class MainActivity extends Activity {
  
         @Override
         protected Void doInBackground(Void... params) {
-        	if (forceReload) {
+        	if ((forceReload)||(Storage.proposalCount==null)) {
 	        	ArrayList<Representation> rList = Storage.representationList;
 	        	proposalCount = new ArrayList<Integer>();
 	        	for (int i=0;i<rList.size();i++) {
@@ -243,7 +243,7 @@ public class MainActivity extends Activity {
  
         @Override
         protected void onPostExecute(Void result) {
-        	ArrayList<Integer> ing = Storage.proposalCount;
+        	//ArrayList<Integer> ing = Storage.proposalCount;
     		Spinner lView = (Spinner)findViewById(R.id.representationList);
     		
     		//check, if All_Representations is selectable (Item 0) and start updating entries starting

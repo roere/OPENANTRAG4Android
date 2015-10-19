@@ -4,7 +4,7 @@ import java.util.Locale;
 
 public abstract class Constants {
 	
-	public static String VERSION = "0.9701";
+	public static String VERSION = "0.975";
 	public static String LICENCE = "GPL Version 3";
 	
 	public static String APP_NAME = "OPENANTRAG4Android";
@@ -27,6 +27,8 @@ public abstract class Constants {
 	public static String VAR_REPRESENTATIVE = "%REPRESENTATIVE%";
 
 	public static Locale LOCALE = Locale.GERMAN;
+	
+	public static String TEST_URL = "www.google.de";
 	
 	public Constants() {
 	}

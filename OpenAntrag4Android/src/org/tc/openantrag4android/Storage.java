@@ -2,6 +2,7 @@ package org.tc.openantrag4android;
 
 import java.util.ArrayList;
 
+import org.tc.openantrag4J.representation.CommitteeSet;
 import org.tc.openantrag4J.representation.Representation;
 import org.tc.openantrag4J.representation.RepresentationSet;
 import org.tc.openantrag4J.representation.android.Representative;
@@ -23,5 +24,6 @@ public abstract class Storage {
 	public static Integer currentPage = 1;
 	public static Long lastReloadProposalPage = System.currentTimeMillis();
 	public static Long lastReloadMainPage = System.currentTimeMillis();
+	public static CommitteeSet committees = null;
 
 }

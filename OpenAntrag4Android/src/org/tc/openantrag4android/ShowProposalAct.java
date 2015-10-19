@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.tc.openantrag4J.OpenAntragException;
 import org.tc.openantrag4J.representation.android.Representative;
 import org.tc.openantrag4j.commands.GetComments;
+import org.tc.openantrag4j.commands.GetCommittees;
 import org.tc.openantrag4j.commands.GetTop;
 import org.tc.openantrag4j.commands.android.GetRepresentatives;
 import org.tc.openantrag4j.proposal.Comment;
@@ -63,14 +64,6 @@ public class ShowProposalAct extends Activity {
 				}
 			});
 		} catch (Exception e) {
-			/*
-			e.printStackTrace();
-			AlertDialog alert = new AlertDialog.Builder(this).create();
-			alert.setTitle("Fehler (debug)!");
-			alert.setMessage(e.getClass()+" - "+e.getMessage());
-			alert.setCanceledOnTouchOutside(true);
-			alert.show();
-			*/
 			//call Error Page Activity
 			Intent intent = new Intent(ShowProposalAct.this, ErrorPageAct.class);
 			intent.putExtra("class", this.getClass());
@@ -98,6 +91,7 @@ public class ShowProposalAct extends Activity {
 		});
 		
 		TextView proposalSteps = (TextView)findViewById(R.id.proposalSteps);
+		TextView proposalStepText = (TextView)findViewById(R.id.proposalStepText);
 		
 		headline.setText(proposal.getTitleText());
 		body.setText(proposal.getTextMarkDown());
@@ -114,7 +108,7 @@ public class ShowProposalAct extends Activity {
 		
 		//print proposal steps...
 		if (proposal.getProposalSteps().size()>0) {
-			proposalSteps.setText(proposal.getProposalSteps().get(proposal.getProposalSteps().size()-1).getShortCaption());
+			proposalStepText.setText(proposal.getProposalSteps().get(proposal.getProposalSteps().size()-1).getShortCaption());
 			proposalSteps.setBackgroundColor(Color.parseColor(proposal.getProposalSteps().get(proposal.getProposalSteps().size()-1).getColor()));
 		} else proposalSteps.setText(Constants.EMPTY_FIELD);
 	
@@ -145,8 +139,8 @@ public class ShowProposalAct extends Activity {
 			//Reload Data only if Force_Reload is set.
 			if (getIntent().getBooleanExtra(Constants.FORCE_RELOAD, false)) {
 	        	try {
-	    			ArrayList<Comment> cList = GetComments.execute(Storage.proposal.getiD());
-	    			Storage.comments = cList;
+	    			Storage.comments = GetComments.execute(Storage.proposal.getiD());
+	    			Storage.committees = GetCommittees.execute(Storage.proposal.getKeyRepresentation());
 	    			ArrayList<Representative> repList = GetRepresentatives.execute(Storage.proposal.getKeyRepresentation());
 	    			for (int i=0; i<repList.size();i++) {
 	    				if (repList.get(i).getKey().equals(Storage.proposal.getKeyRepresentative())) {
